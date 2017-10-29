@@ -69,22 +69,22 @@
 
 
 
-<meta name="description" content="一、    简介 HBase是一种构建在HDFS之上的分布式、面向列的存储系统。在需要实时读写、随机访问超大规模数据集时，可以使用HBase。">
+<meta name="description" content="一、简介 HBase是一种构建在HDFS之上的分布式、面向列的存储系统。在需要实时读写、随机访问超大规模数据集时，可以使用HBase。">
 <meta name="keywords" content="大数据,HBase">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HBase 入门学习资料整理(一)">
 <meta property="og:url" content="http://yoursite.com/2017/10/13/HBase(一) /index.html">
 <meta property="og:site_name" content="Sly_Jupiter">
-<meta property="og:description" content="一、    简介 HBase是一种构建在HDFS之上的分布式、面向列的存储系统。在需要实时读写、随机访问超大规模数据集时，可以使用HBase。">
+<meta property="og:description" content="一、简介 HBase是一种构建在HDFS之上的分布式、面向列的存储系统。在需要实时读写、随机访问超大规模数据集时，可以使用HBase。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://img.blog.csdn.net/20170925153644902?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvanVwaXRlcl8wNTE2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170925160954643?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvanVwaXRlcl8wNTE2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170925160922357?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvanVwaXRlcl8wNTE2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170925160857946?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvanVwaXRlcl8wNTE2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2017-10-13T09:21:43.917Z">
+<meta property="og:updated_time" content="2017-10-25T03:58:05.570Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HBase 入门学习资料整理(一)">
-<meta name="twitter:description" content="一、    简介 HBase是一种构建在HDFS之上的分布式、面向列的存储系统。在需要实时读写、随机访问超大规模数据集时，可以使用HBase。">
+<meta name="twitter:description" content="一、简介 HBase是一种构建在HDFS之上的分布式、面向列的存储系统。在需要实时读写、随机访问超大规模数据集时，可以使用HBase。">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20170925153644902?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvanVwaXRlcl8wNTE2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 
 
@@ -367,7 +367,7 @@
       
 
       
-        <p>一、    简介</p>
+        <p>一、简介</p>
 <pre><code>HBase是一种构建在HDFS之上的分布式、面向列的存储系统。在需要实时读写、随机访问超大规模数据集时，可以使用HBase。
 </code></pre><a id="more"></a>
 <pre><code>尽管已经有许多数据存储和访问的策略和实现方法，但事实上大多数解决方案，特别是一些关系类型的，在构建时并没有考虑超大规模和分布式的特点。许多商家通过复制和分区的方法来扩充数据库使其突破单个节点的界限，但这些功能通常都是事后增加的，安装和维护都和复杂。同时，也会影响RDBMS的特定功能，例如联接、复杂的查询、触发器、视图和外键约束这些操作在大型的RDBMS上的代价相当高，甚至根本无法实现。
@@ -375,23 +375,23 @@
 HBase从另一个角度处理伸缩性问题。它通过线性方式从下到上增加节点来进行扩展。HBase不是关系型数据库，也不支持SQL，但是它有自己的特长，这是RDBMS不能处理的，HBase巧妙地将大而稀疏的表放在商用的服务器集群上。
 
 HBase 是Google Bigtable 的开源实现，与Google Bigtable 利用GFS作为其文件存储系统类似， HBase 利用Hadoop HDFS 作为其文件存储系统；Google 运行MapReduce 来处理Bigtable中的海量数据， HBase 同样利用Hadoop MapReduce来处理HBase中的海量数据；Google Bigtable 利用Chubby作为协同服务， HBase 利用Zookeeper作为对应。
-</code></pre><p>二、    特点</p>
+</code></pre><p>二、特点</p>
 <pre><code>1.    大 ： 一个表可以有上亿行，上百万列。
 2.    面向列 ： 面向列表（簇）的存储和权限控制，列（簇）独立检索。
 3.    稀疏 ： 对于为空（NULL）的列，并不占用存储空间，因此，表可以设计的非常稀疏。
 4.    无模式 ： 每一行都有一个可以排序的主键和任意多的列，列可以根据需要动态增加，同一张表中不同的行可以有截然不同的列。
 5.    数据多版本 ： 每个单元中的数据可以有多个版本，默认情况下，版本号自动分配，版本号就是单元格插入时的时间戳。
 6.    数据类型单一 ： HBase中的数据都是字符串，没有类型。
-</code></pre><p>三、    Nosql数据库<br>    此部分详见 nosql一篇</p>
-<p>四、    Hbase与hadoop及其组件的关系</p>
+</code></pre><p>三、Nosql数据库<br>    此部分详见<a href="https://sly-jupiter.github.io" target="_blank" rel="external">nosql</a> 一篇</p>
+<p>四、Hbase与hadoop及其组件的关系</p>
 <pre><code>HBase参考了Google的BigTable建模，且将下面三篇博文作为HBase实现的理论基础：
 　　■ BigTable by Google (2006).
 　　■ HBase and HDFS Locality by Lars George (2010).
 　　■ No Relation: The Mixed Blessings of Non-Relational Databases by Ian Varley (2009).
  HBase和HDFS有着非常紧密的关系，HBase使用HDFS作为底层存储系统。因此，如果要使用HBase，前提是首先必须有Hadoop系统。 
  Hadoop的组件之一MapReduce可以直接访问HBase，但是，这不是必须的，因为HBase中最重要的访问方式是原生Java API，而不是MapReduce这样的批量操作方式。下图展示了HBase在Hadoop生态系统中的位置。
-</code></pre><p> <img src="http://img.blog.csdn.net/20170925153644902?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvanVwaXRlcl8wNTE2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>五、    架构</p>
+</code></pre><p> <img src="http://img.blog.csdn.net/20170925153644902?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvanVwaXRlcl8wNTE2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
+<p>五、架构</p>
 <pre><code>从HBase的架构图上可以看出，HBase中的组件包括Client、Zookeeper、HMaster、HRegionServer、HRegion、Store、MemStore、StoreFile、HFile、HLog等，接下来介绍他们的作用。
 
 HBase中的每张表都通过行键按照一定的范围被分割成多个子表（HRegion），默认一个HRegion超过256M就要被分割成两个，这个过程由HRegionServer管理，而HRegion的分配由HMaster管理。
@@ -605,7 +605,7 @@ Log的大小通过$HBASE_HOME/conf/hbase-site.xml 的 hbase.regionserver.logroll
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -616,7 +616,7 @@ Log的大小通过$HBASE_HOME/conf/hbase-site.xml 的 hbase.regionserver.logroll
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -627,7 +627,7 @@ Log的大小通过$HBASE_HOME/conf/hbase-site.xml 的 hbase.regionserver.logroll
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
