@@ -77,7 +77,7 @@
 <meta property="og:site_name" content="Sly_Jupiter">
 <meta property="og:description" content="设计思路">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-25T06:11:55.481Z">
+<meta property="og:updated_time" content="2017-11-02T09:31:45.012Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MapReduce---WordCount">
 <meta name="twitter:description" content="设计思路">
@@ -363,10 +363,9 @@
 
       
         <h2 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h2><a id="more"></a>
-<h2 id="实现map"><a href="#实现map" class="headerlink" title="实现map"></a>实现map</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line"></div><div class="line">## 实现reduce</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">## 实现main</div></pre></td></tr></table></figure>
-<p>```</p>
-
+<h2 id="实现map"><a href="#实现map" class="headerlink" title="实现map"></a>实现map</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line">Map类继承自MapReduceBase，并且它实现了Mapper接口，</div><div class="line">此接口是一个规范类型，它有4种形式的参数，</div><div class="line">分别用来指定map的输入key值类型、输入value值类型、输出key值类型和输出value值类型。</div><div class="line">在本例中，因为使用的是TextInputFormat，它的输出key值是LongWritable类型，输出value值是Text类型，所以map的输入类型为&lt;LongWritable,Text&gt;。在本例中需要输出&lt;word,1&gt;这样的形式，因此输出的key值类型是Text，输出的value值类型是IntWritable。</div><div class="line"></div><div class="line">实现此接口类还需要实现map方法，map方法会具体负责对输入进行操作，在本例中，map方法对输入的行以空格为单位进行切分，然后使用OutputCollect收集输出的&lt;word,1&gt;</div><div class="line">*/</div><div class="line"> public static class Map extends MapReduceBase implements</div><div class="line">            Mapper&lt;LongWritable, Text, Text, IntWritable&gt; &#123;</div><div class="line">        private final static IntWritable one = new IntWritable(1);</div><div class="line">        private Text word = new Text();</div><div class="line"></div><div class="line">        public void map(LongWritable key, Text value,</div><div class="line">                OutputCollector&lt;Text, IntWritable&gt; output, Reporter reporter)</div><div class="line">                throws IOException &#123;</div><div class="line">            String line = value.toString();</div><div class="line">            StringTokenizer tokenizer = new StringTokenizer(line);</div><div class="line">            while (tokenizer.hasMoreTokens()) &#123;</div><div class="line">                word.set(tokenizer.nextToken());</div><div class="line">                output.collect(word, one);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h2 id="实现reduce"><a href="#实现reduce" class="headerlink" title="实现reduce"></a>实现reduce</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line">　Reduce类也是继承自MapReduceBase的，需要实现Reducer接口。Reduce类以map的输出作为输入，因此Reduce的输入类型是&lt;Text，Intwritable&gt;。而Reduce的输出是单词和它的数目，因此，它的输出类型是&lt;Text,IntWritable&gt;。Reduce类也要实现reduce方法，在此方法中，reduce函数将输入的key值作为输出的key值，然后将获得多个value值加起来，作为输出的值。</div><div class="line"></div><div class="line">*/</div><div class="line">public static class Reduce extends MapReduceBase implements</div><div class="line">            Reducer&lt;Text, IntWritable, Text, IntWritable&gt; &#123;</div><div class="line">        public void reduce(Text key, Iterator&lt;IntWritable&gt; values,</div><div class="line">                OutputCollector&lt;Text, IntWritable&gt; output, Reporter reporter)</div><div class="line">                throws IOException &#123;</div><div class="line">            int sum = 0;</div><div class="line">            while (values.hasNext()) &#123;</div><div class="line">                sum += values.next().get();</div><div class="line">            &#125;</div><div class="line">            output.collect(key, new IntWritable(sum));</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h2 id="实现main"><a href="#实现main" class="headerlink" title="实现main"></a>实现main</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) throws Exception &#123;</div><div class="line">       /*</div><div class="line">       * Job的初始化过程:</div><div class="line">       * main函数调用Jobconf类来对MapReduce Job进行初始化，然后调用setJobName()方法命名这个Job。</div><div class="line">       * 对Job进行合理的命名有助于更快地找到Job，以便在JobTracker和Tasktracker的页面中对其进行监视。</div><div class="line">       */</div><div class="line">       JobConf conf = new JobConf(WordCount.class);</div><div class="line">       conf.setJobName(&quot;wordcount&quot;);</div><div class="line"></div><div class="line">       /* 接着设置Job输出结果&lt;key,value&gt;的中key和value数据类型</div><div class="line">       * 因为结果是&lt;单词,个数&gt;，所以key设置为&quot;Text&quot;类型，相当于Java中String类型。</div><div class="line">       */Value设置为&quot;IntWritable&quot;，相当于Java中的int类型。</div><div class="line">       conf.setOutputKeyClass(Text.class);</div><div class="line">       conf.setOutputValueClass(IntWritable.class);</div><div class="line"></div><div class="line">       //然后设置Job处理的Map（拆分）、Combiner（中间结果合并）以及Reduce（合并）的相关处理类。</div><div class="line">       //这里用Reduce类来进行Map产生的中间结果合并，避免给网络数据传输产生压力。</div><div class="line">       conf.setMapperClass(Map.class);</div><div class="line">       conf.setCombinerClass(Reduce.class);</div><div class="line">       conf.setReducerClass(Reduce.class);</div><div class="line"></div><div class="line">       //接着就是调用setInputPath()和setOutputPath()设置输入输出路径。</div><div class="line">       conf.setInputFormat(TextInputFormat.class);</div><div class="line">       conf.setOutputFormat(TextOutputFormat.class);</div><div class="line"></div><div class="line">       FileInputFormat.setInputPaths(conf, new Path(args[0]));</div><div class="line">       FileOutputFormat.setOutputPath(conf, new Path(args[1]));</div><div class="line"></div><div class="line">       JobClient.runJob(conf);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
       
     </div>
     
@@ -503,7 +502,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -514,7 +513,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -578,7 +577,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#设计思路"><span class="nav-text">设计思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现map"><span class="nav-text">实现map</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#设计思路"><span class="nav-text">设计思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现map"><span class="nav-text">实现map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现reduce"><span class="nav-text">实现reduce</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现main"><span class="nav-text">实现main</span></a></li></ol></div>
             
 
           </div>
@@ -603,7 +602,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">sly_jupiter</span>
+  <span class="author" itemprop="copyrightHolder">slysly_jupiter</span>
 
   
 </div>
@@ -614,7 +613,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  <div class="powered-by">   </div>
 
 
 
@@ -622,7 +621,7 @@
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.2</div>
+  <div class="theme-info">blog &mdash;   v5.1.2</div>
 
 
 

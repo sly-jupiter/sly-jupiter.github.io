@@ -69,17 +69,17 @@
 
 
 
-<meta name="description" content="MapReduce—数据去重设计思路">
+<meta name="description" content="MapReduce—数据去重设计思路Mapreduce程序首先应该确认,根据确定，原始数据中出现次数超过一次的数据在输出文件中只出现一次。Reduce的输出是不重复的数据，也就是每一行数据作为key，即k3。而v3为空或不需要设值。根据得到k2为每一行的数据，v2为空。根据MapReduce框架设值可知，k1为每行的起始位置，v1为每行的内容。因此，v1需要赋值给k2，使得原来的v1作为新的k2，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MapReduce---数据去重">
 <meta property="og:url" content="http://yoursite.com/2017/10/25/MapReduce-数据去重/index.html">
 <meta property="og:site_name" content="Sly_Jupiter">
-<meta property="og:description" content="MapReduce—数据去重设计思路">
+<meta property="og:description" content="MapReduce—数据去重设计思路Mapreduce程序首先应该确认,根据确定，原始数据中出现次数超过一次的数据在输出文件中只出现一次。Reduce的输出是不重复的数据，也就是每一行数据作为key，即k3。而v3为空或不需要设值。根据得到k2为每一行的数据，v2为空。根据MapReduce框架设值可知，k1为每行的起始位置，v1为每行的内容。因此，v1需要赋值给k2，使得原来的v1作为新的k2，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-25T04:02:50.764Z">
+<meta property="og:updated_time" content="2017-11-03T09:28:16.491Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MapReduce---数据去重">
-<meta name="twitter:description" content="MapReduce—数据去重设计思路">
+<meta name="twitter:description" content="MapReduce—数据去重设计思路Mapreduce程序首先应该确认,根据确定，原始数据中出现次数超过一次的数据在输出文件中只出现一次。Reduce的输出是不重复的数据，也就是每一行数据作为key，即k3。而v3为空或不需要设值。根据得到k2为每一行的数据，v2为空。根据MapReduce框架设值可知，k1为每行的起始位置，v1为每行的内容。因此，v1需要赋值给k2，使得原来的v1作为新的k2，">
 
 
 
@@ -361,10 +361,11 @@
       
 
       
-        <h1 id="MapReduce—数据去重"><a href="#MapReduce—数据去重" class="headerlink" title="MapReduce—数据去重"></a>MapReduce—数据去重</h1><h2 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h2><a id="more"></a>
-<h2 id="实现map"><a href="#实现map" class="headerlink" title="实现map"></a>实现map</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public static class Map extends Mapper&lt;Object,Text,Text,Text&gt;&#123;		</div><div class="line">	private static Text line=new Text();</div><div class="line">	public void map(Object key,Text value,Context context) throws IOException, InterruptedException&#123;</div><div class="line">		line=value;</div><div class="line">		context.write(line, new Text());</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <h1 id="MapReduce—数据去重"><a href="#MapReduce—数据去重" class="headerlink" title="MapReduce—数据去重"></a>MapReduce—数据去重</h1><h2 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h2><p>Mapreduce程序首先应该确认<k3,v3>,根据<k3,v3>确定<k2,v2>，原始数据中出现次数超过一次的数据在输出文件中只出现一次。<br>Reduce的输出是不重复的数据，也就是每一行数据作为key，即k3。而v3为空或不需要设值。<br>根据<k3，v3>得到k2为每一行的数据，v2为空。<br>根据MapReduce框架设值可知，k1为每行的起始位置，v1为每行的内容。<br>因此，v1需要赋值给k2，使得原来的v1作为新的k2，从而两个或更多文件通过在Reduce端聚合，得到去重后的数据。</k3，v3></k2,v2></k3,v3></k3,v3></p>
+<a id="more"></a>
+<h2 id="实现map"><a href="#实现map" class="headerlink" title="实现map"></a>实现map</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public static class Map extends Mapper&lt;Object,Text,Text,Text&gt;&#123;		</div><div class="line">	private static Text line=new Text();</div><div class="line">	public void map(Object key,Text value,Context context) throws IOException, InterruptedException&#123;</div><div class="line">		line=value; //value为每一行的数据 </div><div class="line">		context.write(line, new Text());</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="实现reduce"><a href="#实现reduce" class="headerlink" title="实现reduce"></a>实现reduce</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">public static class Reduce extends Reducer&lt;Text,Text,Text,Text&gt;&#123;</div><div class="line">	public void reduce(Text key, Iterable&lt;Text&gt; value,Context context) throws IOException, InterruptedException&#123;</div><div class="line">		context.write(key, new Text());</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="main"><a href="#main" class="headerlink" title="main()"></a>main()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException &#123;</div><div class="line">	Configuration conf=new Configuration();</div><div class="line">	conf.set(&quot;mapred.job.tracker&quot;,&quot;master:9000&quot;);</div><div class="line">	</div><div class="line">	String[] ioArgs=new String[]&#123;&quot;dedup_in&quot;,&quot;dedup_out&quot;&#125;;</div><div class="line">	String[] otherArgs=new GenericOptionsParser(conf,ioArgs).getRemainingArgs();</div><div class="line">	if(otherArgs.length!=2)&#123;</div><div class="line">		System.out.println(&quot;error&quot;);</div><div class="line">		System.exit(2);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	Job job=new Job(conf,&quot;Data Deduplication&quot;);</div><div class="line">	</div><div class="line">	job.setJarByClass(DataDeduplication.class);</div><div class="line">	job.setMapperClass(Map.class);</div><div class="line">	job.setReducerClass(Reduce.class);</div><div class="line">	</div><div class="line">	job.setOutputKeyClass(Text.class);</div><div class="line">	job.setOutputValueClass(Text.class);</div><div class="line">	</div><div class="line">	FileInputFormat.addInputPath(job, new Path(otherArgs[0]));</div><div class="line">	FileOutputFormat.setOutputPath(job, new Path(otherArgs[1]));</div><div class="line">	</div><div class="line">	System.exit(job.waitForCompletion(true)?0:1);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="main"><a href="#main" class="headerlink" title="main()"></a>main()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException &#123;</div><div class="line">	</div><div class="line">	Configuration conf=new Configuration();</div><div class="line">	conf.set(&quot;mapred.job.tracker&quot;,&quot;master:9000&quot;);</div><div class="line">	</div><div class="line">	String[] ioArgs=new String[]&#123;&quot;dedup_in&quot;,&quot;dedup_out&quot;&#125;;</div><div class="line">	String[] otherArgs=new GenericOptionsParser(conf,ioArgs).getRemainingArgs();</div><div class="line">	if(otherArgs.length!=2)&#123;</div><div class="line">		System.out.println(&quot;error&quot;);</div><div class="line">		System.exit(2);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	Job job=new Job(conf,&quot;Data Deduplication&quot;);</div><div class="line">	</div><div class="line">	job.setJarByClass(DataDeduplication.class);</div><div class="line">	job.setMapperClass(Map.class);</div><div class="line">	job.setReducerClass(Reduce.class);</div><div class="line">	</div><div class="line">	job.setOutputKeyClass(Text.class);</div><div class="line">	job.setOutputValueClass(Text.class);</div><div class="line">	</div><div class="line">	FileInputFormat.addInputPath(job, new Path(otherArgs[0]));</div><div class="line">	FileOutputFormat.setOutputPath(job, new Path(otherArgs[1]));</div><div class="line">	</div><div class="line">	System.exit(job.waitForCompletion(true)?0:1);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
       
     </div>
     
@@ -388,8 +389,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/10/25/MapReduce-数据排序/" rel="next" title="MapReduce---数据排序">
-                <i class="fa fa-chevron-left"></i> MapReduce---数据排序
+              <a href="/2017/10/12/vacation-2017-9-30/" rel="next" title="vacation_2017.9.30">
+                <i class="fa fa-chevron-left"></i> vacation_2017.9.30
               </a>
             
           </div>
@@ -493,7 +494,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -504,7 +505,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -593,7 +594,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">sly_jupiter</span>
+  <span class="author" itemprop="copyrightHolder">slysly_jupiter</span>
 
   
 </div>
@@ -604,7 +605,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+  <div class="powered-by">   </div>
 
 
 
@@ -612,7 +613,7 @@
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.2</div>
+  <div class="theme-info">blog &mdash;   v5.1.2</div>
 
 
 

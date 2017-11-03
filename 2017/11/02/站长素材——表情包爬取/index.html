@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="爬虫,Python,表情包," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="语言版本python 3.6 库文件 BeautifulSoup requests">
+<meta name="keywords" content="爬虫,Python,表情包">
+<meta property="og:type" content="article">
+<meta property="og:title" content="站长素材——表情包爬取">
+<meta property="og:url" content="http://yoursite.com/2017/11/02/站长素材——表情包爬取/index.html">
+<meta property="og:site_name" content="Sly_Jupiter">
+<meta property="og:description" content="语言版本python 3.6 库文件 BeautifulSoup requests">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/11/02/站长素材——表情包爬取/网站分析.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/02/站长素材——表情包爬取/网站分析第二页.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/02/站长素材——表情包爬取/程序运行.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/02/站长素材——表情包爬取/程序运行结果.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/02/站长素材——表情包爬取/程序运行结果2.png">
+<meta property="og:updated_time" content="2017-11-02T09:20:59.363Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="站长素材——表情包爬取">
+<meta name="twitter:description" content="语言版本python 3.6 库文件 BeautifulSoup requests">
+<meta name="twitter:image" content="http://yoursite.com/2017/11/02/站长素材——表情包爬取/网站分析.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/02/站长素材——表情包爬取/"/>
+
+
+
+
+
+  <title>站长素材——表情包爬取 | Sly_Jupiter</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sly_Jupiter</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">在更迭的人海里</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/02/站长素材——表情包爬取/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sly_jupiter">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sly_Jupiter">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">站长素材——表情包爬取</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-02T11:15:41+08:00">
+                2017-11-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习——爬虫/" itemprop="url" rel="index">
+                    <span itemprop="name">学习——爬虫</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="语言版本"><a href="#语言版本" class="headerlink" title="语言版本"></a>语言版本</h1><p>python 3.6</p>
+<h1 id="库文件"><a href="#库文件" class="headerlink" title="库文件"></a>库文件</h1><ol>
+<li>BeautifulSoup</li>
+<li>requests</li>
+</ol>
+<a id="more"></a>
+<h1 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h1><ol>
+<li>首先打开<a href="http://sc.chinaz.com/biaoqing/index.html" target="_blank" rel="external">站长素材</a><br>可以看到首页的URL如图<br><img src="/2017/11/02/站长素材——表情包爬取/网站分析.png" alt=""><br>点击下方翻页按钮到第二页，可以得到第二页的URL如图<br><img src="/2017/11/02/站长素材——表情包爬取/网站分析第二页.png" alt=""><br>再次观察后面的页面就可以得到规律，每一页的URL都是在首页的基础上递增<br>格式：‘<a href="http://sc.chinaz.com/biaoqing/index_’" target="_blank" rel="external">http://sc.chinaz.com/biaoqing/index_’</a> + ‘页码’ + ‘.html’</li>
+</ol>
+<p>2.</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div></pre></td><td class="code"><pre><div class="line"># -*-coding:utf-8-*-</div><div class="line">import bs4</div><div class="line">from bs4 import BeautifulSoup</div><div class="line">import re</div><div class="line">import requests</div><div class="line">import os</div><div class="line">import traceback</div><div class="line"></div><div class="line"> </div><div class="line">#获得页面内容 </div><div class="line">def getHtmlText(url):</div><div class="line">    try:</div><div class="line">        r = requests.get(url, timeout=30)</div><div class="line">        r.raise_for_status()</div><div class="line">        r.encoding = r.apparent_encoding</div><div class="line">        return r.text</div><div class="line">    except:</div><div class="line">        return &quot;&quot;</div><div class="line"></div><div class="line">#获得content </div><div class="line">def getImgContent(url):</div><div class="line">    head = &#123;&quot;user-agent&quot;: &quot;Mozilla/5.0&quot;&#125;</div><div class="line">    try:</div><div class="line">        r = requests.get(url, headers=head, timeout=30)</div><div class="line">        print(&quot;status_code:&quot; + r.status_code)</div><div class="line">        r.raise_for_status()</div><div class="line">        return r.content</div><div class="line">    except:</div><div class="line">        return None</div><div class="line"></div><div class="line">#获得页面中的表情的链接 </div><div class="line">def getTypeUrlList(html, typeUrlList):</div><div class="line">    soup = BeautifulSoup(html, &apos;html.parser&apos;)</div><div class="line">    divs = soup.find_all(&quot;div&quot;, attrs=&#123;&quot;class&quot;: &quot;up&quot;&#125;)</div><div class="line">    for div in divs:</div><div class="line">        a = div.find(&quot;div&quot;, attrs=&#123;&quot;class&quot;: &quot;num_1&quot;&#125;).find(&quot;a&quot;)</div><div class="line">        title = a.attrs[&quot;title&quot;]</div><div class="line">        typeUrl = a.attrs[&quot;href&quot;]</div><div class="line">        typeUrlList.append((title, typeUrl))</div><div class="line">#</div><div class="line">def getImgUrlList(typeUrlList, imgUrlDict):</div><div class="line">    for tuple in typeUrlList:</div><div class="line">        title = tuple[0]</div><div class="line">        url = tuple[1]</div><div class="line">        title_imgUrlList = []</div><div class="line">        html = getHtmlText(url)</div><div class="line">        soup = BeautifulSoup(html, &quot;html.parser&quot;)</div><div class="line">        # print(soup.prettify())</div><div class="line"></div><div class="line">        div = soup.find(&quot;div&quot;, attrs=&#123;&quot;class&quot;: &quot;img_text&quot;&#125;)</div><div class="line">        # print(type(div))</div><div class="line">        imgDiv = div.next_sibling.next_sibling</div><div class="line">        # print(type(imgDiv))</div><div class="line">        imgs = imgDiv.find_all(&quot;img&quot;);</div><div class="line">        for img in imgs:</div><div class="line">            src = img.attrs[&quot;src&quot;]</div><div class="line">            title_imgUrlList.append(src)</div><div class="line">        imgUrlDict[title] = title_imgUrlList</div><div class="line"></div><div class="line">#获取表情</div><div class="line">def getImage(imgUrlDict, file_path):</div><div class="line">    head = &#123;&quot;user-agent&quot;: &quot;Mozilla/5.0&quot;&#125;</div><div class="line">    countdir = 0</div><div class="line">    for title, imgUrlList in imgUrlDict.items():</div><div class="line">        # print(title+&quot;:&quot;+str(imgUrlList))</div><div class="line">        try:</div><div class="line">            dir = file_path + title</div><div class="line">            if not os.path.exists(dir):</div><div class="line">                os.mkdir(dir)</div><div class="line">            countfile = 0</div><div class="line">            for imgUrl in imgUrlList:</div><div class="line">                path = dir + &quot;/&quot; + imgUrl.split(&quot;/&quot;)[-1]</div><div class="line">                # print(path)</div><div class="line">                # print(imgUrl)</div><div class="line">                if not os.path.exists(path):</div><div class="line">                    r = requests.get(imgUrl, headers=head, timeout=30)</div><div class="line">                    r.raise_for_status()</div><div class="line">                    with open(path, &quot;wb&quot;) as f:</div><div class="line">                        f.write(r.content)</div><div class="line">                        f.close()</div><div class="line">                        countfile = countfile + 1</div><div class="line">                        print(&quot;当前进度文件夹进度&#123;:.2f&#125;%&quot;.format(countfile * 100 / len(imgUrlList)))</div><div class="line">            countdir = countdir + 1</div><div class="line">            print(&quot;文件夹进度&#123;:.2f&#125;%&quot;.format(countdir * 100 / len(imgUrlDict)))</div><div class="line"></div><div class="line">        except:</div><div class="line">            print(traceback.print_exc())</div><div class="line">            # print(&quot;from getImage 爬取失败&quot;)</div><div class="line"></div><div class="line"></div><div class="line">def main():</div><div class="line">    # 设置爬取10页的内容，太多占空间</div><div class="line">    pages = 10</div><div class="line">    root = &quot;http://sc.chinaz.com/biaoqing/&quot;</div><div class="line">    url = &quot;http://sc.chinaz.com/biaoqing/index.html&quot;</div><div class="line"></div><div class="line">    #指定本地存储位置</div><div class="line">    file_path = &quot;e://表情包/&quot;</div><div class="line">    imgUrlDict = &#123;&#125;</div><div class="line">    typeUrlList = []</div><div class="line">    html = getHtmlText(url);</div><div class="line">    getTypeUrlList(html, typeUrlList)</div><div class="line">    getImgUrlList(typeUrlList, imgUrlDict)</div><div class="line">    getImage(imgUrlDict, file_path)</div><div class="line"></div><div class="line">    for page in range(pages):</div><div class="line">        url = root + &quot;index_&quot; + str(page) + &quot;.html&quot;</div><div class="line">        imgUrlDict = &#123;&#125;</div><div class="line">        typeUrlList = []</div><div class="line">        html = getHtmlText(url);</div><div class="line">        getTypeUrlList(html, typeUrlList)</div><div class="line">        getImgUrlList(typeUrlList, imgUrlDict)</div><div class="line">        getImage(imgUrlDict, file_path)</div><div class="line"></div><div class="line"></div><div class="line">if __name__ == &apos;__main__&apos;:</div><div class="line">    main()</div></pre></td></tr></table></figure>
+<h1 id="程序运行结果"><a href="#程序运行结果" class="headerlink" title="程序运行结果"></a>程序运行结果</h1><p><img src="/2017/11/02/站长素材——表情包爬取/程序运行.png" alt=""><br><img src="/2017/11/02/站长素材——表情包爬取/程序运行结果.png" alt=""><br><img src="/2017/11/02/站长素材——表情包爬取/程序运行结果2.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/表情包/" rel="tag"># 表情包</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/01/拉勾网爬虫/" rel="next" title="拉勾网爬虫————大数据招聘">
+                <i class="fa fa-chevron-left"></i> 拉勾网爬虫————大数据招聘
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.gif"
+              alt="sly_jupiter" />
+          
+            <p class="site-author-name" itemprop="name">sly_jupiter</p>
+            <p class="site-description motion-element" itemprop="description">the time you enjoy wasting, is not wasted</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/sly-jupiter" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:sly_jupiter@126.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://instagram.com/sly_shalieyan" target="_blank" title="Instagram">
+                  
+                    <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/5667238614" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>微博</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=38358214&auto=1&height=66">
+        </iframe>
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#语言版本"><span class="nav-text">语言版本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#库文件"><span class="nav-text">库文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计思路"><span class="nav-text">设计思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码"><span class="nav-text">代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#程序运行结果"><span class="nav-text">程序运行结果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></scriFpt>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">slysly_jupiter</span>
+
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+  ��վ�ÿ���:<span id="busuanzi_value_site_pv"></span>
+</span>
+</div>
+
+
+  <div class="powered-by">   </div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">blog &mdash;   v5.1.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
