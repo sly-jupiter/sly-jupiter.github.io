@@ -1105,7 +1105,7 @@ pre .javascript .function {
   display: inline-block;
   padding: 0 40px;
   color: #fff;
-  background: #222;
+  background: $white;
   border-bottom: none;
 }
 .brand:hover {
@@ -1121,7 +1121,7 @@ pre .javascript .function {
   display: inline-block;
   vertical-align: top;
   line-height: 36px;
-  font-size: 20px;
+  font-size: 50px;
   font-weight: normal;
   font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
 }
@@ -1542,7 +1542,7 @@ pre .javascript .function {
 }
 .post-button .btn {
   color: #fff;
-  font-size: 14px;
+  font-size: 16px;
   background: #222;
   border-radius: 0;
   line-height: 2;
@@ -1742,7 +1742,7 @@ pre .javascript .function {
   margin-top: 5px;
   text-align: center;
   font-size: 14px;
-  color: #999;
+  color: #0684bd;
 }
 .site-state {
   overflow: hidden;
@@ -1812,7 +1812,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #4b58ff;
+  background: #a8fbff;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2676,6 +2676,6 @@ embed {
   display: inline-block;
 }
 body {
-  background: url("/images/b4.jpg");
+  background: url("/images/bg1.jpg");
   background-attachment: fixed;
 }
