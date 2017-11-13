@@ -72,7 +72,7 @@
 <meta name="description" content="Storm简介Storm是由Nathan Marz开发的，一个免费并开源的分布式实时计算系统。 Storm是基于数据流的实时处理系统，提供了大吞吐量的实时计算能力。通过数据入口获取每条到来的数据，在一条数据到达系统的时候，立即会在内存中进行相应的计算；Storm适合要求实时性较高的数据分析场景。Storm 不处理静态数据,但它处理连续的流数据。">
 <meta name="keywords" content="大数据,storm,入门">
 <meta property="og:type" content="article">
-<meta property="og:title" content="storm入门资料">
+<meta property="og:title" content="storm 入门学习资料整理">
 <meta property="og:url" content="http://yoursite.com/2017/11/06/storm入门资料/index.html">
 <meta property="og:site_name" content="Sly_Jupiter">
 <meta property="og:description" content="Storm简介Storm是由Nathan Marz开发的，一个免费并开源的分布式实时计算系统。 Storm是基于数据流的实时处理系统，提供了大吞吐量的实时计算能力。通过数据入口获取每条到来的数据，在一条数据到达系统的时候，立即会在内存中进行相应的计算；Storm适合要求实时性较高的数据分析场景。Storm 不处理静态数据,但它处理连续的流数据。">
@@ -81,9 +81,9 @@
 <meta property="og:image" content="http://yoursite.com/2017/11/06/storm入门资料/2.png">
 <meta property="og:image" content="http://yoursite.com/2017/11/06/storm入门资料/3.png">
 <meta property="og:image" content="http://yoursite.com/2017/11/06/storm入门资料/4.png">
-<meta property="og:updated_time" content="2017-11-06T02:18:51.291Z">
+<meta property="og:updated_time" content="2017-11-13T02:29:03.163Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="storm入门资料">
+<meta name="twitter:title" content="storm 入门学习资料整理">
 <meta name="twitter:description" content="Storm简介Storm是由Nathan Marz开发的，一个免费并开源的分布式实时计算系统。 Storm是基于数据流的实时处理系统，提供了大吞吐量的实时计算能力。通过数据入口获取每条到来的数据，在一条数据到达系统的时候，立即会在内存中进行相应的计算；Storm适合要求实时性较高的数据分析场景。Storm 不处理静态数据,但它处理连续的流数据。">
 <meta name="twitter:image" content="http://yoursite.com/2017/11/06/storm入门资料/1.png">
 
@@ -121,7 +121,7 @@
 
 
 
-  <title>storm入门资料 | Sly_Jupiter</title>
+  <title>storm 入门学习资料整理 | Sly_Jupiter</title>
   
 
 
@@ -295,7 +295,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">storm入门资料</h1>
+          <h1 class="post-title" itemprop="name headline">storm 入门学习资料整理</h1>
         
 
         <div class="post-meta">
@@ -330,8 +330,30 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/学习————大数据/" itemprop="url" rel="index">
-                    <span itemprop="name">学习————大数据</span>
+                  <a href="/categories/学习/" itemprop="url" rel="index">
+                    <span itemprop="name">学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/大数据/storm/" itemprop="url" rel="index">
+                    <span itemprop="name">storm</span>
                   </a>
                 </span>
 
@@ -419,12 +441,12 @@
 </ul>
 <h2 id="Topology"><a href="#Topology" class="headerlink" title="Topology"></a>Topology</h2><p>在Storm中,一个实时应用的计算任务被打包作为Topology发布，这同Hadoop的MapReduce任务相似。但是有一点不同的是:在Hadoop中，MapReduce任务最终会执行完成后结束；而在Storm中，Topology任务一旦提交后永远不会结束，除非你显示去停止任务。计算任务Topology是由不同的Spouts和Bolts，通过数据流（Stream）连接起来的图｡下面是一个Topology的结构示意图：<br> <img src="/2017/11/06/storm入门资料/3.png" alt=""><br>•    Spout：Storm中的消息源,用于为Topology生产消息(数据),一般是从外部数据源(如Message Queue、RDBMS、NoSQL、Realtime Log ）不间断地读取数据并发送给Topology消息(tuple元组)。<br>•    Bolt：Storm中的消息处理者，用于为Topology进行消息的处理，Bolt可以执行过滤，聚合， 查询数据库等操作，而且可以一级一级的进行处理。</p>
 <h2 id="分组机制"><a href="#分组机制" class="headerlink" title="分组机制"></a>分组机制</h2><p>Stream Grouping定义了一个流在Bolt任务间该如何被切分。这里有Storm提供的6个Stream Grouping类型：</p>
-<h3 id="随机分组"><a href="#随机分组" class="headerlink" title="随机分组"></a>随机分组</h3><p>随机分发tuple到Bolt的任务，保证每个任务获得相等数量的tuple。</p>
-<h3 id="字段分组"><a href="#字段分组" class="headerlink" title="字段分组"></a>字段分组</h3><p>根据指定字段分割数据流，并分组。例如，根据“user-id”字段，相同“user-id”的元组总是分发到同一个任务，不同“user-id”的元组可能分发到不同的任务。</p>
-<h3 id="全部分组"><a href="#全部分组" class="headerlink" title="全部分组"></a>全部分组</h3><p>tuple被复制到bolt的所有任务。这种类型需要谨慎使用。</p>
-<h3 id="全局分组"><a href="#全局分组" class="headerlink" title="全局分组"></a>全局分组</h3><p>全部流都分配到bolt的同一个任务。明确地说，是分配给ID最小的那个task。</p>
-<h3 id="无分组"><a href="#无分组" class="headerlink" title="无分组"></a>无分组</h3><p>你不需要关心流是如何分组。目前，无分组等效于随机分组。但最终，Storm将把无分组的Bolts放到Bolts或Spouts订阅它们的同一线程去执行（如果可能）。</p>
-<h3 id="直接分组"><a href="#直接分组" class="headerlink" title="直接分组"></a>直接分组</h3><p>这是一个特别的分组类型。元组生产者决定tuple由哪个元组处理者任务接收。</p>
+<h3 id="Shuffle-Grouping-随机分组"><a href="#Shuffle-Grouping-随机分组" class="headerlink" title="Shuffle Grouping: 随机分组"></a>Shuffle Grouping: 随机分组</h3><p>随机分发tuple到Bolt的任务，保证每个任务获得相等数量的tuple。</p>
+<h3 id="Fields-Grouping：字段分组"><a href="#Fields-Grouping：字段分组" class="headerlink" title="Fields Grouping：字段分组"></a>Fields Grouping：字段分组</h3><p>根据指定字段分割数据流，并分组。例如，根据“user-id”字段，相同“user-id”的元组总是分发到同一个任务，不同“user-id”的元组可能分发到不同的任务。</p>
+<h3 id="All-Grouping：全部分组"><a href="#All-Grouping：全部分组" class="headerlink" title="All Grouping：全部分组"></a>All Grouping：全部分组</h3><p>tuple被复制到bolt的所有任务。这种类型需要谨慎使用。</p>
+<h3 id="Global-Grouping-全局分组"><a href="#Global-Grouping-全局分组" class="headerlink" title="Global Grouping: 全局分组"></a>Global Grouping: 全局分组</h3><p>全部流都分配到bolt的同一个任务。明确地说，是分配给ID最小的那个task。</p>
+<h3 id="Non-Grouping-无分组"><a href="#Non-Grouping-无分组" class="headerlink" title="Non Grouping: 无分组"></a>Non Grouping: 无分组</h3><p>你不需要关心流是如何分组。目前，无分组等效于随机分组。但最终，Storm将把无分组的Bolts放到Bolts或Spouts订阅它们的同一线程去执行（如果可能）。</p>
+<h3 id="Direct-Grouping-直接分组"><a href="#Direct-Grouping-直接分组" class="headerlink" title="Direct Grouping: 直接分组"></a>Direct Grouping: 直接分组</h3><p>这是一个特别的分组类型。元组生产者决定tuple由哪个元组处理者任务接收。<br>用这种分组意味着消息的发送者举鼎由消息接收者的哪个task处理这个消息.只有被声明为Direct Stream的消息流可以声明这种分组方法.而且这种消息tuple必须使用emitDirect方法来发射.消息处理者可以通过TopologyContext来或者处理它的消息的taskid (OutputCollector.emit方法也会返回taskid)</p>
 <h3 id="通过实现CustomStreamGrouping定义自己的分组模式"><a href="#通过实现CustomStreamGrouping定义自己的分组模式" class="headerlink" title="通过实现CustomStreamGrouping定义自己的分组模式"></a>通过实现CustomStreamGrouping定义自己的分组模式</h3><h1 id="storm和Hadoop的架构对比"><a href="#storm和Hadoop的架构对比" class="headerlink" title="storm和Hadoop的架构对比"></a>storm和Hadoop的架构对比</h1><p>他们的总体架构相似。<br> <img src="/2017/11/06/storm入门资料/4.png" alt=""><br>在Hadoop架构中,主从节点分别运行JobTracker和TaskTracker进程,在storm架构中,主从节点分别运行Nimbus和Supervisor进程。在Hadoop架构中,应用程序的名称是Job,Hadoop将一个Job解析为若干Map和Reduce任务,每个Map或Reduce任务都由一个Child进程来运行,该Child进程是由TaskTracker在子节点上产生的子进程。</p>
 <p>在Storm架构中,应用程序的名称是Topology,Storm将一个Topology划分为若干个部分,每部分由一个Worker进程来运行,该Worker进程是Supervisor在子节点上产生的子进程,在每个Worker进程中存在着若干Spout和Bolt线程,分别负责Spout和Bolt组件的数据处理过程。</p>
 <p>从应用程序的比较中可以看明显地看到Hadoop和Storm架构的主要不同之处｡在Hadoop架构中,应用程序Job代表着这样的作业:输入是确定的,作业可以在有限时间内完成,当作业完成时Job的生命周期走到终点,输出确定的计算结果；而在Storm架构中,Topology代表的并不是确定的作业,而是持续的计算过程，在确定的业务逻辑处理框架下,输入数据源源不断地进入系统，经过流式处理后以较低的延迟产生输出。如果不主动结束这个Topology或者关闭Storm集群,那么数据处理的过程就会持续地进行下去。<br>通过以上的分析，我们可以看到，storm架构是如何解决Hadoop架构瓶颈的：<br>Storm的Topology只需初始化一次。在将Topology提交到Storm集群的时候,集群会针对该Topology做一次初始化的工作，此后,在Topology运行过程中,对于输入数据而言,是没有计算框架初始化耗时的,有效避免了计算框架初始化的时间损耗。<br>Storm使用Netty作为底层的消息队列来传递消息,保证消息能够得到快速的处理，同时Storm采用内存计算模式,无需借助文件存储,直接通过网络直传中间计算结果,避免了组件之间传输数据的大量时间损耗。</p>
@@ -484,6 +506,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/06/storm简单实例——WordCount/" rel="prev" title="storm简单实例——WordCount">
+                storm简单实例——WordCount <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -565,7 +591,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -576,7 +602,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -587,7 +613,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -651,7 +677,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Storm简介"><span class="nav-text">Storm简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Storm的特点"><span class="nav-text">Storm的特点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Storm有如下优点："><span class="nav-text">Storm有如下优点：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不过Storm不是一个完整的解决方案。使用Storm时你需要关注以下几点："><span class="nav-text">不过Storm不是一个完整的解决方案。使用Storm时你需要关注以下几点：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#storm与传统数据库"><span class="nav-text">storm与传统数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#storm与传统大数据"><span class="nav-text">storm与传统大数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#storm架构与原理"><span class="nav-text">storm架构与原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#体系结构"><span class="nav-text">体系结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Topology"><span class="nav-text">Topology</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分组机制"><span class="nav-text">分组机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#随机分组"><span class="nav-text">随机分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字段分组"><span class="nav-text">字段分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全部分组"><span class="nav-text">全部分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局分组"><span class="nav-text">全局分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无分组"><span class="nav-text">无分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直接分组"><span class="nav-text">直接分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过实现CustomStreamGrouping定义自己的分组模式"><span class="nav-text">通过实现CustomStreamGrouping定义自己的分组模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#storm和Hadoop的架构对比"><span class="nav-text">storm和Hadoop的架构对比</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Storm的操作模式"><span class="nav-text">Storm的操作模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本地模式："><span class="nav-text">本地模式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远程模式："><span class="nav-text">远程模式：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Storm的使用场景"><span class="nav-text">Storm的使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流聚合"><span class="nav-text">流聚合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#批处理"><span class="nav-text">批处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BasicBolt"><span class="nav-text">BasicBolt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存内缓存-fileds-grouping"><span class="nav-text">内存内缓存+fileds grouping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算top-N"><span class="nav-text">计算top N</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用TimeCacheMap来高效地保存一个最近被更新的对象的缓存"><span class="nav-text">使用TimeCacheMap来高效地保存一个最近被更新的对象的缓存</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分布式RPC-CoordinatedBolt和KeyedFairBolt"><span class="nav-text">分布式RPC:CoordinatedBolt和KeyedFairBolt</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Storm简介"><span class="nav-text">Storm简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Storm的特点"><span class="nav-text">Storm的特点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Storm有如下优点："><span class="nav-text">Storm有如下优点：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不过Storm不是一个完整的解决方案。使用Storm时你需要关注以下几点："><span class="nav-text">不过Storm不是一个完整的解决方案。使用Storm时你需要关注以下几点：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#storm与传统数据库"><span class="nav-text">storm与传统数据库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#storm与传统大数据"><span class="nav-text">storm与传统大数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#storm架构与原理"><span class="nav-text">storm架构与原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#体系结构"><span class="nav-text">体系结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Topology"><span class="nav-text">Topology</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分组机制"><span class="nav-text">分组机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Shuffle-Grouping-随机分组"><span class="nav-text">Shuffle Grouping: 随机分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fields-Grouping：字段分组"><span class="nav-text">Fields Grouping：字段分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#All-Grouping：全部分组"><span class="nav-text">All Grouping：全部分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Global-Grouping-全局分组"><span class="nav-text">Global Grouping: 全局分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Non-Grouping-无分组"><span class="nav-text">Non Grouping: 无分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Direct-Grouping-直接分组"><span class="nav-text">Direct Grouping: 直接分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过实现CustomStreamGrouping定义自己的分组模式"><span class="nav-text">通过实现CustomStreamGrouping定义自己的分组模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#storm和Hadoop的架构对比"><span class="nav-text">storm和Hadoop的架构对比</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Storm的操作模式"><span class="nav-text">Storm的操作模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本地模式："><span class="nav-text">本地模式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远程模式："><span class="nav-text">远程模式：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Storm的使用场景"><span class="nav-text">Storm的使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#流聚合"><span class="nav-text">流聚合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#批处理"><span class="nav-text">批处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BasicBolt"><span class="nav-text">BasicBolt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存内缓存-fileds-grouping"><span class="nav-text">内存内缓存+fileds grouping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算top-N"><span class="nav-text">计算top N</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用TimeCacheMap来高效地保存一个最近被更新的对象的缓存"><span class="nav-text">使用TimeCacheMap来高效地保存一个最近被更新的对象的缓存</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分布式RPC-CoordinatedBolt和KeyedFairBolt"><span class="nav-text">分布式RPC:CoordinatedBolt和KeyedFairBolt</span></a></li></ol></div>
             
 
           </div>
