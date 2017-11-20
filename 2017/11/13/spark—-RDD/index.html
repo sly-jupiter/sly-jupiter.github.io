@@ -77,7 +77,7 @@
 <meta property="og:site_name" content="Sly_Jupiter">
 <meta property="og:description" content="什么是Spark RDD RDD就是Spark提供的核心抽象，全称为Resilient Distributed Datasets(弹性分布式数据集)， RDD在抽象上来说上是一种元素集合，包含了数据。它是被分区的，分为多个分区(partition)，每个分区分布在不同的节点上，从而让RDD中的数据可以被并行的处理。 RDD是一个容错(最重要的特性)的、并行的数据结构，可以让用户显式地将数据存储到磁">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-14T02:02:46.242Z">
+<meta property="og:updated_time" content="2017-11-17T08:57:04.621Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark RDD 原理分析">
 <meta name="twitter:description" content="什么是Spark RDD RDD就是Spark提供的核心抽象，全称为Resilient Distributed Datasets(弹性分布式数据集)， RDD在抽象上来说上是一种元素集合，包含了数据。它是被分区的，分为多个分区(partition)，每个分区分布在不同的节点上，从而让RDD中的数据可以被并行的处理。 RDD是一个容错(最重要的特性)的、并行的数据结构，可以让用户显式地将数据存储到磁">
@@ -388,6 +388,7 @@
 <li>RDD就是Spark提供的核心抽象，全称为Resilient Distributed Datasets(弹性分布式数据集)，</li>
 <li>RDD在抽象上来说上是一种元素集合，包含了数据。它是被分区的，分为多个分区(partition)，每个分区分布在不同的节点上，从而让RDD中的数据可以被并行的处理。</li>
 <li><p>RDD是一个容错(最重要的特性)的、并行的数据结构，可以让用户显式地将数据存储到磁盘和内存中，并能控制数据的分区。</p>
+<a id="more"></a>
 </li>
 <li><p>同时，RDD还提供了一组丰富的操作来操作这些数据。在这些操作中，诸如map、flatMap、filter等转换操作实现了monad模式，很好地契合了Scala的集合操作。除此之外，RDD还提供了诸如join、groupBy、reduceByKey等更为方便的操作（注意，reduceByKey是action，而非transformation），以支持常见的数据运算。</p>
 </li>
@@ -459,6 +460,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/20/something-brand-new/" rel="prev" title="something brand new">
+                something brand new <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -540,7 +545,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -562,7 +567,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
