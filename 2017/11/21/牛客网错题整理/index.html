@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Day 1 知识点：数据库解析：实体完整性指表中行的完整性域完整性指列的值域的完整性，如数据类型、格式、值域范围、是否允许空值等等参照完整性基于外键与被引用主键之间的关系，确保键值在所有表中的一致性用户定义完整性包括：属性值限制，如列值非空（notnull）、列值唯一（unique）、检查列值是否满足一个条件表达式（check短语）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="牛客网错题整理">
+<meta property="og:url" content="http://yoursite.com/2017/11/21/牛客网错题整理/index.html">
+<meta property="og:site_name" content="Sly_Jupiter">
+<meta property="og:description" content="Day 1 知识点：数据库解析：实体完整性指表中行的完整性域完整性指列的值域的完整性，如数据类型、格式、值域范围、是否允许空值等等参照完整性基于外键与被引用主键之间的关系，确保键值在所有表中的一致性用户定义完整性包括：属性值限制，如列值非空（notnull）、列值唯一（unique）、检查列值是否满足一个条件表达式（check短语）">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/3.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/2.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/1.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/4.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/5.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/6.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/7.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/12.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/13.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/14.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/15.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/16.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/31.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/32.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/33.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/34.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/35.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/36.png">
+<meta property="og:updated_time" content="2017-12-02T08:32:44.410Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="牛客网错题整理">
+<meta name="twitter:description" content="Day 1 知识点：数据库解析：实体完整性指表中行的完整性域完整性指列的值域的完整性，如数据类型、格式、值域范围、是否允许空值等等参照完整性基于外键与被引用主键之间的关系，确保键值在所有表中的一致性用户定义完整性包括：属性值限制，如列值非空（notnull）、列值唯一（unique）、检查列值是否满足一个条件表达式（check短语）">
+<meta name="twitter:image" content="http://yoursite.com/2017/11/21/牛客网错题整理/3.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/21/牛客网错题整理/"/>
+
+
+
+
+
+  <title>牛客网错题整理 | Sly_Jupiter</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sly_Jupiter</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">在更迭的人海里</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/21/牛客网错题整理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sly_jupiter">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sly_Jupiter">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">牛客网错题整理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-21T15:30:29+08:00">
+                2017-11-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Day-1"><a href="#Day-1" class="headerlink" title="Day 1"></a>Day 1</h1><ol>
+<li>知识点：数据库<br><img src="/2017/11/21/牛客网错题整理/3.png" alt=""><br>解析：<br>实体完整性指表中行的完整性<br>域完整性指列的值域的完整性，如数据类型、格式、值域范围、是否允许空值等等<br>参照完整性基于外键与被引用主键之间的关系，确保键值在所有表中的一致性<br>用户定义完整性包括：属性值限制，如列值非空（not<br>null）、列值唯一（unique）、检查列值是否满足一个条件表达式（check短语）</li>
+</ol>
+<a id="more"></a>
+<ol>
+<li><p>知识点：排序、算法<br><img src="/2017/11/21/牛客网错题整理/2.png" alt=""><br>解析：<br>快速排序算法思想：<br>基于分治的思想，是冒泡排序的改进型。首先在数组中选择一个基准点（该基准点的选取可能影响快速排序的效率，后面讲解选取的方法），然后分别从数组的两端扫描数组，设两个指示标志（lo指向起始位置，hi指向末尾)，首先从后半部分开始，如果发现有元素比该基准点的值小，就交换lo和hi位置的值，然后从前半部分开始扫秒，发现有元素大于基准点的值，就交换lo和hi位置的值，如此往复循环，直到lo&gt;=hi,然后把基准点的值放到hi这个位置。一次排序就完成了。以后采用递归的方式分别对前半部分和后半部分排序，当前半部分和后半部分均有序时该数组就自然有序了。<br>快速排序的时间复杂度为O(NlogN).</p>
+</li>
+<li><p>知识点：操作系统<br><img src="/2017/11/21/牛客网错题整理/1.png" alt=""><br>解析：<br>请求分页存储管理方式可以实现虚拟存储，在逻辑上扩充内存</p>
+</li>
+<li><p>知识点：软件工程<br><img src="/2017/11/21/牛客网错题整理/4.png" alt=""><br>解析：<br>软件危机主要表现在：软件需求的增长得不到满足；软件开发成本和进度无法控制；软件质量难以保证；软件不可维护或维护程度非常低；软件的成本不断提高；软件开发生产率的提高赶不上硬件的发展和应用需求的增长。</p>
+</li>
+<li><p>知识点：<br><img src="/2017/11/21/牛客网错题整理/5.png" alt=""><br>解析：<br>题目要求：返回本地IP地址，所以用getLocalAddress()方法<br>getInetAddress()返回的是连接的ip地址</p>
+</li>
+<li><p>知识点：<br><img src="/2017/11/21/牛客网错题整理/6.png" alt=""><br>解析：<br>启动一个线程的方法是 start()<br>结束线程用的是interrupt()方法，而stop()是强制结束线程，并不推荐使用，同时stop()方法已被弃用<br>daemon线程是守护线程，当主线程结束时，守护线程会自动结束<br>一个线程等待另外一个线程的方法是wait()方法</p>
+</li>
+<li><p>知识点:<br><img src="/2017/11/21/牛客网错题整理/7.png" alt=""><br>解析：<br>-Xmx10240m：代表最大堆<br>-Xms10240m：代表最小堆<br>-Xmn5120m：代表新生代<br>-XXSurvivorRatio=3：代表Eden:Survivor = 3<br>根据Generation-Collection算法(目前大部分JVM采用的算法)，一般根据对象的生存周期将堆内存分为若干不同的区域，一般情况将新生代分为Eden ，两块Survivor；    计算Survivor大小， Eden:Survivor = 3，总大小为5120,3x+x+x=5120  x=1024<br>新生代大部分要回收，采用Copying算法，快！<br>老年代 大部分不需要回收，采用Mark-Compact算法</p>
+</li>
+</ol>
+<h1 id="Day-2"><a href="#Day-2" class="headerlink" title="Day 2"></a>Day 2</h1><ol>
+<li>知识点：java初始化过程<br><img src="/2017/11/21/牛客网错题整理/12.png" alt=""><br>解析：<br>初始化过程是这样的：<br>1.首先，初始化父类中的静态成员变量和静态代码块，按照在程序中出现的顺序初始化；<br>2.然后，初始化子类中的静态成员变量和静态代码块，按照在程序中出现的顺序初始化；<br>3.其次，初始化父类的普通成员变量和代码块，在执行父类的构造方法；<br>4.最后，初始化子类的普通成员变量和代码块，在执行子类的构造方法； </li>
+</ol>
+<p>（1）初始化父类的普通成员变量和代码块，执行 C c = new C(); 输出C<br>（2）super(“B”); 表示调用父类的构造方法，不调用父类的无参构造函数，输出B<br>（3） System.out.print(“B”);<br>所以输出CBB</p>
+<ol>
+<li><p>知识点：java 权限<br><img src="/2017/11/21/牛客网错题整理/13.png" alt=""><br>解析：<br>A：变量不能被defalut修饰<br>B：native修饰方法，native修饰的方法简单来说就是：一个Java方法调用了一个非Java代码的接口。<br>定义navtive方法时，并不提供实现体，因为其实现体是用非Java语言在外面实现的。native可以和任何修饰符连用，abstract除外。因为native暗示这个方法时有实现体的，而abstract却显式指明了这个方法没有实现体。<br>C：abstract修饰方法和类<br>D：final修饰的方法不能被重写。而abstract定义的方法没有实现，必须被子类重写，明显不能一起使用。</p>
+</li>
+<li><p>知识点：<br><img src="/2017/11/21/牛客网错题整理/14.png" alt=""><br>解析：<br>Action 类:<br>• Struts1要求Action类继承一个抽象基类。Struts1的一个普遍问题是使用抽象类编程而不是接口，而struts2的Action是接口。<br>• Struts 2 Action类可以实现一个Action接口，也可实现其他接口，使可选和定制的服务成为可能。Struts2提供一个ActionSupport基类去 实现 常用的接口。Action接口不是必须的，任何有execute标识的POJO对象都可以用作Struts2的Action对象。<br>线程模式:<br>• Struts1 Action是单例模式并且必须是线程安全的，因为仅有Action的一个实例来处理所有的请求。单例策略限制了Struts1 Action能作的事，并且要在开发时特别小心。Action资源必须是线程安全的或同步的。<br>• Struts2 Action对象为每一个请求产生一个实例，因此没有线程安全问题。（实际上，servlet容器给每个请求产生许多可丢弃的对象，并且不会导致性能和垃圾回收问题）<br>Servlet 依赖:<br>• Struts1 Action 依赖于Servlet API ,因为当一个Action被调用时HttpServletRequest 和 HttpServletResponse 被传递给execute方法。<br>• Struts 2 Action不依赖于容器，允许Action脱离容器单独被测试。如果需要，Struts2 Action仍然可以访问初始的request和response。但是，其他的元素减少或者消除了直接访问HttpServetRequest 和 HttpServletResponse的必要性。<br>可测性:<br>• 测试Struts1 Action的一个主要问题是execute方法暴露了servlet API（这使得测试要依赖于容器）。一个第三方扩展－－Struts TestCase－－提供了一套Struts1的模拟对象（来进行测试）。<br>• Struts 2 Action可以通过初始化、设置属性、调用方法来测试，“依赖注入”支持也使测试更容易。<br>捕获输入:<br>• Struts1 使用ActionForm对象捕获输入。所有的ActionForm必须继承一个基类。因为其他JavaBean不能用作ActionForm，开发者经常创建多余的类捕获输入。动态Bean（DynaBeans）可以作为创建传统ActionForm的选择，但是，开发者可能是在重新描述(创建)已经存 在的JavaBean（仍然会导致有冗余的javabean）。<br>• Struts 2直接使用Action属性作为输入属性，消除了对第二个输入对象的需求。输入属性可能是有自己(子)属性的rich对象类型。Action属性能够通过 web页面上的taglibs访问。Struts2也支持ActionForm模式。rich对象类型，包括业务对象，能够用作输入/输出对象。这种 ModelDriven 特性简化了taglib对POJO输入对象的引用。<br>表达式语言：<br>• Struts1 整合了JSTL，因此使用JSTL EL。这种EL有基本对象图遍历，但是对集合和索引属性的支持很弱。<br>• Struts2可以使用JSTL，但是也支持一个更强大和灵活的表达式语言－－”Object Graph Notation Language” (OGNL). </p>
+</li>
+<li><p>知识点：<br><img src="/2017/11/21/牛客网错题整理/15.png" alt=""><br>解析：<br>实参和形参的问题。”ex.change(ex.str, ex.ch)”语句调用”change”方法时，将ex.str变量（实参）的值赋给了”change”方法中的str变量（形参），而将ex.ch（实参）的地址赋给了”change”方法中的ch（形参）。”change”方法运行时，第一条语句改变的是方法中形参的值，对实参没影响，第二条语句由于是直接改变的ch所指地址的值，所以把实参也进行了改变。<br>参考：<a href="http://www.cnblogs.com/woshimrf/p/5263018.html" target="_blank" rel="external">http://www.cnblogs.com/woshimrf/p/5263018.html</a></p>
+</li>
+</ol>
+<ol>
+<li><p>知识点：java 线程安全<br><img src="/2017/11/21/牛客网错题整理/16.png" alt=""><br>解析：<br>A：Vector相当于一个线程安全的List<br>B：HashMap是非线程安全的，其对应的线程安全类是HashTable<br>C：Arraylist是非线程安全的，其对应的线程安全类是Vector<br>D：StringBuffer是线程安全的，相当于一个线程安全的StringBuilder<br>E：Properties实现了Map接口，是线程安全的</p>
+</li>
+<li><p>知识点：<br><img src="/2017/11/21/牛客网错题整理/.png" alt=""><br>解析：</p>
+</li>
+</ol>
+<h1 id="Day-3"><a href="#Day-3" class="headerlink" title="Day 3"></a>Day 3</h1><ol>
+<li><p>知识点：<br><img src="/2017/11/21/牛客网错题整理/31.png" alt=""><br>解析：参考 <a href="http://blog.sina.com.cn/s/blog_6a6b14100100zn6r.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_6a6b14100100zn6r.html</a></p>
+</li>
+<li><p>知识点：<br><img src="/2017/11/21/牛客网错题整理/32.png" alt=""><br>解析：<br>Hashtable和HashMap的区别：<br>a)   继承不同。<br>public class Hashtable extends Dictionary implements Map<br>public class HashMap extends  AbstractMap implements Map<br>b)  Hashtable中的方法是同步的，而HashMap中的方法在缺省情况下是非同步的。在多线程并发的环境下，可以直接使用Hashtable，但是要使用HashMap的话就要自己增加同步处理了。<br>c)  Hashtable中，key和value 都不允许出现null值。在HashMap中，null可以作为键，这样的键只有一个；可以有一个或多个键所对应的值为null。当get()方法返回null值时，即可以表示HashMap中没有该键，也可以表示该键所对应的值为null。因此，在HashMap中不能由get()方法来判断HashMap中是否存在某个键，而应该用containsKey()方法来判断。<br>d)  两个遍历方式的内部实现上不同。Hashtable、HashMap都使用了Iterator。而由于历史原因，Hashtable还使用了Enumeration的方式 。<br>e)  哈希值的使用不同，HashTable直接使用对象的hashCode。而HashMap重新计算hash值。<br>f)  Hashtable和HashMap它们两个内部实现方式的数组的初始大小和扩容的方式。<br>HashTable中hash数组默认大小是11，增加的方式是old*2+1。HashMap中hash数组的默认大小是16，而且一定是2的指数。<br>注：HashSet子类依靠hashCode()和equal()方法来区分重复元素。<br>HashSet内部使用Map保存数据，即将HashSet的数据作为Map的key值保存，这也是HashSet中元素不能重复的原因。<br>而Map中保存key值的,会去判断当前Map中是否含有该Key对象，内部是先通过key的hashCode,确定有相同的hashCode之后，<br>再通过equals方法判断是否相同。</p>
+</li>
+<li><p>知识点：<br><img src="/2017/11/21/牛客网错题整理/33.png" alt=""><br>解析：Loc(A ij )=10(基地址)+[(5-1)<em>100+(5-1)]</em>2=818。</p>
+</li>
+<li><p>知识点：<br><img src="/2017/11/21/牛客网错题整理/34.png" alt=""><br>解析：讲真,不知道这个咋就选错了</p>
+</li>
+<li><p>知识点：<br><img src="/2017/11/21/牛客网错题整理/35.png" alt=""><br>解析：<br>题目说要声明一个数组指针,<br>一般我们想到的数组指针是随便来一个 int(<em>p)[10],<br>然后又说每个元素是一个函数指针,那么我们随便来一个函数指针 int (</em>pf)(int <em>) .<br>然后把(</em>p)[10]作为一个整体替代 pf 即 int(<em>(</em>p)[10]))(int <em>);<br>分析: 判断一个复杂式子看最高优先级的,</em>p是一个指针,然后(<em>p)外面是[],所以是数组指针,(</em>p)[10])描述完毕,然后再看外面int(<em>)(int </em>)很明显,这是一个函数指针,所以这个数组中每个元素是函数指针</p>
+</li>
+<li>知识点：<br><img src="/2017/11/21/牛客网错题整理/36.png" alt=""><br>解析：</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/20/something-brand-new/" rel="next" title="something brand new">
+                <i class="fa fa-chevron-left"></i> something brand new
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/22/python正则表达式/" rel="prev" title="python正则表达式">
+                python正则表达式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.gif"
+              alt="sly_jupiter" />
+          
+            <p class="site-author-name" itemprop="name">sly_jupiter</p>
+            <p class="site-description motion-element" itemprop="description">the time you enjoy wasting, is not wasted</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/sly-jupiter" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:sly_jupiter@126.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://instagram.com/sly_shalieyan" target="_blank" title="Instagram">
+                  
+                    <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/5667238614" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>微博</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=38358214&auto=1&height=66">
+        </iframe>
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Day-1"><span class="nav-text">Day 1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Day-2"><span class="nav-text">Day 2</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Day-3"><span class="nav-text">Day 3</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></scriFpt>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">slysly_jupiter</span>
+
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+  ��վ�ÿ���:<span id="busuanzi_value_site_pv"></span>
+</span>
+</div>
+
+
+  <div class="powered-by">   </div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">blog &mdash;   v5.1.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
