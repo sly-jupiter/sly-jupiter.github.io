@@ -53,7 +53,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="爬虫,原理,基础," />
 
 
 
@@ -70,6 +70,7 @@
 
 
 <meta name="description" content="本文记载了一些关于爬虫技术的基础学习">
+<meta name="keywords" content="爬虫,原理,基础">
 <meta property="og:type" content="article">
 <meta property="og:title" content="爬虫基础一">
 <meta property="og:url" content="http://yoursite.com/2017/12/07/爬虫基础一/index.html">
@@ -82,7 +83,14 @@
 <meta property="og:image" content="http://yoursite.com/2017/12/07/爬虫基础一/3.png">
 <meta property="og:image" content="http://yoursite.com/2017/12/07/爬虫基础一/4.png">
 <meta property="og:image" content="http://yoursite.com/2017/12/07/爬虫基础一/5.png">
-<meta property="og:updated_time" content="2017-12-07T09:41:46.412Z">
+<meta property="og:image" content="http://yoursite.com/2017/12/07/爬虫基础一/7.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/07/爬虫基础一/8.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/07/爬虫基础一/9.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/07/爬虫基础一/10.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/07/爬虫基础一/11.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/07/爬虫基础一/12.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/07/爬虫基础一/13.png">
+<meta property="og:updated_time" content="2017-12-08T03:09:07.509Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="爬虫基础一">
 <meta name="twitter:description" content="本文记载了一些关于爬虫技术的基础学习">
@@ -319,6 +327,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/" itemprop="url" rel="index">
+                    <span itemprop="name">学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -358,11 +388,7 @@
 <li>response部分的HTTP HEADER<br><img src="/2017/12/07/爬虫基础一/2.png" alt=""></li>
 </ol>
 <h4 id="HTTP-请求方法"><a href="#HTTP-请求方法" class="headerlink" title="HTTP 请求方法"></a>HTTP 请求方法</h4><ol>
-<li>GET<br>所有参数直接以QueryString的形式出现在url里<br>例如：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">https://www.baidu.com/s?wd=%E6%9D%8E%E5%AE%87%E6%98%A5&amp;rsv_spt=1&amp;rsv_iqid=0xf87e2f8a00011a2a&amp;issp=1&amp;f=3&amp;rsv_bp=0&amp;rsv_idx=2&amp;ie=utf-8&amp;tn=baiduhome_pg&amp;rsv_enter=1&amp;rsv_sug3=12&amp;rsv_sug1=17&amp;rsv_sug7=100&amp;rsv_sug2=0&amp;prefixsug=lliyu&amp;rsp=3&amp;inputT=7678&amp;rsv_sug4=8382</div><div class="line"></div><div class="line">//&amp;符号连接的都是参数等信息</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><img src="/2017/12/07/爬虫基础一/6.png" alt=""><br>GET是一个纯粹请求数据的方法，不需要修改数据，所以是安全的方法</p>
-<ol>
+<li>GET<br>GET是一个纯粹请求数据的方法，不需要修改数据，所以是安全的方法<br><img src="/2017/12/07/爬虫基础一/6.png" alt=""></li>
 <li>POST<br>不安全的方法，</li>
 </ol>
 <h4 id="HTTP-响应状态码"><a href="#HTTP-响应状态码" class="headerlink" title="HTTP 响应状态码"></a>HTTP 响应状态码</h4><ol>
@@ -371,11 +397,37 @@
 <li>4xx : 客户端错误(例如，请求不存在的网址、未授权的网址、)</li>
 <li>5xx : 服务器错误<br><img src="/2017/12/07/爬虫基础一/4.png" alt=""><br>错误处理<br><img src="/2017/12/07/爬虫基础一/5.png" alt=""></li>
 </ol>
-<h2 id="html-amp-css"><a href="#html-amp-css" class="headerlink" title="html&amp;css"></a>html&amp;css</h2><h3 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h3><p>超文本标记语言，浏览器根据HTML规范解析<br>HTML中，与爬虫相关的规范</p>
+<h2 id="html-amp-css"><a href="#html-amp-css" class="headerlink" title="html&amp;css"></a>html&amp;css</h2><p>超文本标记语言，浏览器根据HTML规范解析<br>HTML中，与爬虫相关的规范</p>
 <ol>
-<li><a>            //标记了外链用来做抓取</a></li>
-<li><tr>、<p>    //用来进行内容抽取</p></tr></li>
-<li>id 、class 用在css上的帮助定位元素，作用于tr、p等标签</li>
+<li>a标签            //标记了外链用来做抓取</li>
+<li>tr、p标签        //用来进行内容抽取</li>
+<li>id 、class标签     //用在css上的帮助定位元素，作用于tr、p等标签<br><img src="/2017/12/07/爬虫基础一/7.png" alt=""><br><img src="/2017/12/07/爬虫基础一/8.png" alt=""></li>
+</ol>
+<h2 id="Dom树"><a href="#Dom树" class="headerlink" title="Dom树"></a>Dom树</h2><p><img src="/2017/12/07/爬虫基础一/9.png" alt=""></p>
+<h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h2><p>运行在前端的编程语言。主要用于动态网页的数据、内容的加载与呈现。其中AJAX专门用来异步请求数据。而往往这些数据是爬虫需要爬取的。</p>
+<h2 id="爬虫的抓取对象类型"><a href="#爬虫的抓取对象类型" class="headerlink" title="爬虫的抓取对象类型"></a>爬虫的抓取对象类型</h2><h3 id="静态网页"><a href="#静态网页" class="headerlink" title="静态网页"></a>静态网页</h3><p>例：<a href="https://baike.baidu.com/item/%E6%9D%8E%E5%AE%87%E6%98%A5/80102?fr=aladdin" target="_blank" rel="external">百度百科</a></p>
+<h3 id="动态网页"><a href="#动态网页" class="headerlink" title="动态网页"></a>动态网页</h3><p>例：<a href="https://item.jd.com/4675750.html" target="_blank" rel="external">京东</a></p>
+<h3 id="Web-Service"><a href="#Web-Service" class="headerlink" title="Web Service"></a>Web Service</h3><p>例：<a href="https://m.weibo.cn/api/container/getIndex?uid=1618051664&amp;luicode=2000" target="_blank" rel="external">微博接口</a></p>
+<h2 id="网页抓取原理及方法"><a href="#网页抓取原理及方法" class="headerlink" title="网页抓取原理及方法"></a>网页抓取原理及方法</h2><p><img src="/2017/12/07/爬虫基础一/10.png" alt=""></p>
+<h3 id="深度优先"><a href="#深度优先" class="headerlink" title="深度优先"></a>深度优先</h3><p><img src="/2017/12/07/爬虫基础一/11.png" alt=""></p>
+<h3 id="广度优先"><a href="#广度优先" class="headerlink" title="广度优先"></a>广度优先</h3><p><img src="/2017/12/07/爬虫基础一/12.png" alt=""></p>
+<h3 id="所以，选啥？"><a href="#所以，选啥？" class="headerlink" title="所以，选啥？"></a>所以，选啥？</h3><ol>
+<li>重要的网页距离种子节点比较近</li>
+<li>万维网的深度并没有很深，一个网页有很多路径可以到达</li>
+<li>宽度优先有利于多爬虫并行合作爬取</li>
+<li>深度限制与宽度优先相结合</li>
+</ol>
+<h2 id="不重复抓取"><a href="#不重复抓取" class="headerlink" title="不重复抓取"></a>不重复抓取</h2><h3 id="记录抓取历史"><a href="#记录抓取历史" class="headerlink" title="记录抓取历史"></a>记录抓取历史</h3><ol>
+<li>将数据访问过的url保存在数据库？<br>效率太低</li>
+<li>用hashset将访问过的url保存起来，就只需要O(1)的代价可以查到一个url是否被访问过。<br>消耗内存</li>
+<li>url经过MD5或SHA-1等单向哈希后再保存到hashset或数据库</li>
+<li>Bit-Map方法。建立一个BitSet,将每一个url经过一个哈希函数映射到某一位</li>
+</ol>
+<h3 id="MD5函数"><a href="#MD5函数" class="headerlink" title="MD5函数"></a>MD5函数</h3><p>MD5签名是一个哈希函数，可以将任意长度的数据量转换为一个固定长度的数字(通常为4个int，128位)。<br>计算机不可能有2的128次方那么大的内存。所以实际当中的哈希表都会是URL.MD5%n(即取模)。<br>现实当中url组合比定是超越哈希表的槽位数，所以碰撞一定存在。一般的哈希函数，例如：java的HashTable是一个Hash表再跟上一个链表(链表存碰撞结果)</p>
+<h3 id="提高效率"><a href="#提高效率" class="headerlink" title="提高效率"></a>提高效率</h3><ol>
+<li>评估网站的网页数量<br><img src="/2017/12/07/爬虫基础一/13.png" alt=""></li>
+<li>选择合适的HASH算法和空间阈值、降低碰撞率</li>
+<li>选择合适的存储结构与算法</li>
 </ol>
 
       
@@ -391,6 +443,16 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/爬虫/" rel="tag"># 爬虫</a>
+          
+            <a href="/tags/原理/" rel="tag"># 原理</a>
+          
+            <a href="/tags/基础/" rel="tag"># 基础</a>
+          
+        </div>
       
 
       
@@ -513,7 +575,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -577,7 +639,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#协议"><span class="nav-text">协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#http协议"><span class="nav-text">http协议:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-HEADER"><span class="nav-text">HTTP HEADER</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-请求方法"><span class="nav-text">HTTP 请求方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-响应状态码"><span class="nav-text">HTTP 响应状态码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#html-amp-css"><span class="nav-text">html&css</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML"><span class="nav-text">HTML</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#协议"><span class="nav-text">协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#http协议"><span class="nav-text">http协议:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-HEADER"><span class="nav-text">HTTP HEADER</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-请求方法"><span class="nav-text">HTTP 请求方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-响应状态码"><span class="nav-text">HTTP 响应状态码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#html-amp-css"><span class="nav-text">html&css</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dom树"><span class="nav-text">Dom树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript"><span class="nav-text">JavaScript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#爬虫的抓取对象类型"><span class="nav-text">爬虫的抓取对象类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态网页"><span class="nav-text">静态网页</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态网页"><span class="nav-text">动态网页</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web-Service"><span class="nav-text">Web Service</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网页抓取原理及方法"><span class="nav-text">网页抓取原理及方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#深度优先"><span class="nav-text">深度优先</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#广度优先"><span class="nav-text">广度优先</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#所以，选啥？"><span class="nav-text">所以，选啥？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不重复抓取"><span class="nav-text">不重复抓取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#记录抓取历史"><span class="nav-text">记录抓取历史</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MD5函数"><span class="nav-text">MD5函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提高效率"><span class="nav-text">提高效率</span></a></li></ol></li></ol></div>
             
 
           </div>
