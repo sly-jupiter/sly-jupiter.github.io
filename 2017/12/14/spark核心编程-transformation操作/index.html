@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="大数据,spark," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="RDD算子概念RDD算子，就是RDD中定义的函数，可以对RDD中的元素进行转换和操作。 RDD算子分类算子分为两类：  转换算子（Transformation）：操作是延迟计算的，也就是一个RDD转换为另外一个RDD不是马上执行的，需要等到行动算子（Action）执行的时候，才会真正触发。 行动算子（Action）：Action算子的执行会触发Spark提交作业。">
+<meta name="keywords" content="大数据,spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spark核心编程-transformation操作">
+<meta property="og:url" content="http://yoursite.com/2017/12/14/spark核心编程-transformation操作/index.html">
+<meta property="og:site_name" content="Sly_Jupiter">
+<meta property="og:description" content="RDD算子概念RDD算子，就是RDD中定义的函数，可以对RDD中的元素进行转换和操作。 RDD算子分类算子分为两类：  转换算子（Transformation）：操作是延迟计算的，也就是一个RDD转换为另外一个RDD不是马上执行的，需要等到行动算子（Action）执行的时候，才会真正触发。 行动算子（Action）：Action算子的执行会触发Spark提交作业。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-22T08:32:15.098Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spark核心编程-transformation操作">
+<meta name="twitter:description" content="RDD算子概念RDD算子，就是RDD中定义的函数，可以对RDD中的元素进行转换和操作。 RDD算子分类算子分为两类：  转换算子（Transformation）：操作是延迟计算的，也就是一个RDD转换为另外一个RDD不是马上执行的，需要等到行动算子（Action）执行的时候，才会真正触发。 行动算子（Action）：Action算子的执行会触发Spark提交作业。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/14/spark核心编程-transformation操作/"/>
+
+
+
+
+
+  <title>spark核心编程-transformation操作 | Sly_Jupiter</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sly_Jupiter</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">在更迭的人海里</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/14/spark核心编程-transformation操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sly_jupiter">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sly_Jupiter">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">spark核心编程-transformation操作</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-14T17:37:49+08:00">
+                2017-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/" itemprop="url" rel="index">
+                    <span itemprop="name">学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/大数据/spark/" itemprop="url" rel="index">
+                    <span itemprop="name">spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="RDD算子"><a href="#RDD算子" class="headerlink" title="RDD算子"></a>RDD算子</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>RDD算子，就是RDD中定义的函数，可以对RDD中的元素进行转换和操作。</p>
+<h2 id="RDD算子分类"><a href="#RDD算子分类" class="headerlink" title="RDD算子分类"></a>RDD算子分类</h2><p>算子分为两类：</p>
+<ol>
+<li>转换算子（Transformation）：操作是延迟计算的，也就是一个RDD转换为另外一个RDD不是马上执行的，需要等到行动算子（Action）执行的时候，才会真正触发。</li>
+<li>行动算子（Action）：Action算子的执行会触发Spark提交作业。</li>
+</ol>
+<a id="more"></a>
+<h1 id="transformation算子分类"><a href="#transformation算子分类" class="headerlink" title="transformation算子分类"></a>transformation算子分类</h1><p>transformation算子主要分为以下两类</p>
+<ol>
+<li>Value数据类型的</li>
+<li>Key-Value数据类型的</li>
+</ol>
+<h2 id="Value数据类型的Transformation算子"><a href="#Value数据类型的Transformation算子" class="headerlink" title="Value数据类型的Transformation算子"></a>Value数据类型的Transformation算子</h2><p>Value数据类型的Transformation算子，这种变换并不触发提交作业，针对处理的数据项是Value型的数据。Value数据类型的Transformation算子又可以分为以下几种：</p>
+<h3 id="输入分区与输出分区一对一型"><a href="#输入分区与输出分区一对一型" class="headerlink" title="输入分区与输出分区一对一型"></a>输入分区与输出分区一对一型</h3><ol>
+<li><p>map算子<br>将原来RDD的每个数据项通过map中的用户自定义函数f映射转变为一个新的元素。源码中map算子相当于初始化一个RDD，新RDD叫做MappedRDD(this, sc.clean(f))。</p>
+</li>
+<li><p>flatMap算子<br>将原来RDD中的每个元素通过函数f转换为新的元素，并将生成的RDD的每个集合中的元素合并为一个集合，内部创建FlatMappedRDD(this，sc.clean(f))。</p>
+</li>
+<li><p>mapPartitions算子<br>mapPartitions函数获取到每个分区的迭代器，在函数中通过这个分区整体的迭代器对整个分区的元素进行操作。内部实现是生成MapPartitionsRDD。</p>
+</li>
+<li><p>glom算子<br>glom函数将每个分区形成一个数组，内部实现是返回的GlommedRDD。 图4中的每个方框代表一个RDD分区。</p>
+</li>
+</ol>
+<h3 id="输入分区与输出分区多对一型"><a href="#输入分区与输出分区多对一型" class="headerlink" title="输入分区与输出分区多对一型"></a>输入分区与输出分区多对一型</h3><ol>
+<li><p>union算子<br>使用 union 函数时需要保证两个 RDD 元素的数据类型相同，返回的 RDD 数据类型和被合并的 RDD 元素数据类型相同，并不进行去重操作，保存所有元素。<br>Spark 还提供更为简洁的使用 union 的 API，通过 ++ 符号相当于 union 函数操作。</p>
+</li>
+<li><p>cartesian算子<br>对 两 个 RDD 内 的 所 有 元 素 进 行 笛 卡 尔 积 操 作。 操 作 后， 内 部 实 现 返 回CartesianRDD。</p>
+</li>
+</ol>
+<h3 id="输入分区与输出分区多对多型"><a href="#输入分区与输出分区多对多型" class="headerlink" title="输入分区与输出分区多对多型"></a>输入分区与输出分区多对多型</h3><ol>
+<li>grouBy算子<br>将元素通过函数生成相应的 Key，数据就转化为 Key-Value 格式，之后将 Key 相同的元素分为一组。</li>
+</ol>
+<h3 id="输出分区为输入分区子集型"><a href="#输出分区为输入分区子集型" class="headerlink" title="输出分区为输入分区子集型"></a>输出分区为输入分区子集型</h3><ol>
+<li><p>filter算子<br>filter 函数功能是对元素进行过滤，对每个 元 素 应 用 f 函 数， 返 回 值 为 true 的 元 素 在RDD 中保留，返回值为 false 的元素将被过滤掉。 内 部 实 现 相 当 于 生 成 FilteredRDD(this，sc.clean(f))。</p>
+</li>
+<li><p>distinct算子<br>distinct将RDD中的元素进行去重操作。图9中的每个方框代表一个RDD分区，通过distinct函数，将数据去重。</p>
+</li>
+<li><p>subtract算子<br>subtract相当于进行集合的差操作，RDD 1去除RDD 1和RDD2交集中的所有元素。图10中左侧的大方框代表两个RDD，大方框内的小方框代表RDD的分区。</p>
+</li>
+<li><p>sample算子等<br>sample 将RDD这个集合内的元素进行采样，获取所有元素的子集。用户可以设定是否有放回的抽样、百分比、随机种子，进而决定采样方式。内部实现是生成 SampledRDD(withReplacement， fraction， seed)。</p>
+</li>
+</ol>
+<h3 id="Cache型"><a href="#Cache型" class="headerlink" title="Cache型"></a>Cache型</h3><ol>
+<li><p>cache算子<br>cache 将 RDD 元素从磁盘缓存到内存。 相当于 persist(MEMORY_ONLY) 函数的功能。</p>
+</li>
+<li><p>persist算子<br>persist 函数对 RDD 进行缓存操作。数据缓存在哪里依据 StorageLevel 这个枚举类型进行确定。</p>
+</li>
+</ol>
+<h2 id="Key-Value数据类型的Transfromation算子"><a href="#Key-Value数据类型的Transfromation算子" class="headerlink" title="Key-Value数据类型的Transfromation算子"></a>Key-Value数据类型的Transfromation算子</h2><p>Key-Value数据类型的Transfromation算子，这种变换并不触发提交作业，针对处理的数据项是Key-Value型的数据对。Key-Value数据类型的Transfromation算子又可以分为以下几种：</p>
+<h3 id="输入分区与输出分区一对一"><a href="#输入分区与输出分区一对一" class="headerlink" title="输入分区与输出分区一对一"></a>输入分区与输出分区一对一</h3><ol>
+<li>mapValues算子<br>mapValues ：针对（Key， Value）型数据中的 Value 进行 Map 操作，而不对 Key 进行处理。</li>
+</ol>
+<h3 id="对单个RDD聚集"><a href="#对单个RDD聚集" class="headerlink" title="对单个RDD聚集"></a>对单个RDD聚集</h3><ol>
+<li>combineByKey算子</li>
+<li>reduceByKey算子</li>
+<li>partitionBy算子<br>partitionBy函数对RDD进行分区操作。<br>函数定义: partitionBy（partitioner：Partitioner）<br>如果原有RDD的分区器和现有分区器（partitioner）一致，则不重分区，如果不一致，则相当于根据分区器生成一个新的ShuffledRDD。</li>
+</ol>
+<h3 id="对两个RDD聚集"><a href="#对两个RDD聚集" class="headerlink" title="对两个RDD聚集"></a>对两个RDD聚集</h3><ol>
+<li>Cogroup算子<br>cogroup函数将两个RDD进行协同划分，cogroup函数的定义如下。<br>cogroup[W]（other： RDD[（K， W）]， numPartitions： Int）： RDD[（K， （Iterable[V]， Iterable[W]））]<br>对在两个RDD中的Key-Value类型的元素，每个RDD相同Key的元素分别聚合为一个集合，并且返回两个RDD中对应Key的元素集合的迭代器。<br>（K， （Iterable[V]， Iterable[W]））<br>其中，Key和Value，Value是两个RDD下相同Key的两个数据集合的迭代器所构成的元组。</li>
+</ol>
+<h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><ol>
+<li><p>join算子<br>join 对两个需要连接的 RDD 进行 cogroup函数操作，将相同 key 的数据能够放到一个分区，在 cogroup 操作之后形成的新 RDD 对每个key 下的元素进行笛卡尔积的操作，返回的结果再展平，对应 key 下的所有元组形成一个集合。最后返回 RDD[(K， (V， W))]。</p>
+</li>
+<li><p>leftOutJoin算子和 rightOutJoin算子<br>LeftOutJoin（左外连接）和RightOutJoin（右外连接）相当于在join的基础上先判断一侧的RDD元素是否为空，如果为空，则填充为空。 如果不为空，则将数据进行连接运算，并返回结果。</p>
+</li>
+</ol>
+<h1 id="transformation操作实例"><a href="#transformation操作实例" class="headerlink" title="transformation操作实例"></a>transformation操作实例</h1><h2 id="主方法"><a href="#主方法" class="headerlink" title="主方法"></a>主方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">import java.util.Arrays;</div><div class="line">import java.util.Iterator;</div><div class="line">import java.util.List;</div><div class="line">import org.apache.spark.SparkConf;</div><div class="line">import org.apache.spark.api.java.JavaPairRDD;</div><div class="line">import org.apache.spark.api.java.JavaRDD;</div><div class="line">import org.apache.spark.api.java.JavaSparkContext;</div><div class="line">import org.apache.spark.api.java.function.FlatMapFunction;</div><div class="line">import org.apache.spark.api.java.function.Function;</div><div class="line">import org.apache.spark.api.java.function.Function2;</div><div class="line">import org.apache.spark.api.java.function.VoidFunction;</div><div class="line">import scala.Tuple2;</div><div class="line"></div><div class="line">@SuppressWarnings(value = &#123;&quot;unused&quot;, &quot;unchecked&quot;&#125;)</div><div class="line"></div><div class="line">//transformation操作实战</div><div class="line">public class TransformationOperation &#123;</div><div class="line"></div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		// map();</div><div class="line">		// filter();</div><div class="line">		// flatMap();</div><div class="line">		// groupByKey();</div><div class="line">		// reduceByKey();</div><div class="line">		// sortByKey();</div><div class="line">		// join();</div><div class="line">		cogroup();</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<h2 id="map算子案例：将集合中每一个元素都乘以2"><a href="#map算子案例：将集合中每一个元素都乘以2" class="headerlink" title="map算子案例：将集合中每一个元素都乘以2"></a>map算子案例：将集合中每一个元素都乘以2</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">private static void map() &#123;</div><div class="line">	// 创建SparkConf</div><div class="line">	SparkConf conf = new SparkConf().setAppName(&quot;map&quot;).setMaster(&quot;local&quot;);</div><div class="line">	// 创建JavaSparkContext</div><div class="line">	JavaSparkContext sc = new JavaSparkContext(conf);</div><div class="line">	// 构造集合</div><div class="line">	List&lt;Integer&gt; numbers = Arrays.asList(1, 2, 3, 4, 5);</div><div class="line">	// 并行化集合，创建初始RDD</div><div class="line">	JavaRDD&lt;Integer&gt; numberRDD = sc.parallelize(numbers);</div><div class="line">	</div><div class="line">	// 使用map算子，将集合中的每个元素都乘以2</div><div class="line">	// map算子，是对任何类型的RDD，都可以调用的</div><div class="line">	// 在java中，map算子接收的参数是Function对象</div><div class="line">	// 创建的Function对象，一定会让你设置第二个泛型参数，这个泛型类型，就是返回的新元素的类型</div><div class="line">	// 同时call()方法的返回类型，也必须与第二个泛型类型同步</div><div class="line">	// 在call()方法内部，就可以对原始RDD中的每一个元素进行各种处理和计算，并返回一个新的元素</div><div class="line">	// 所有新的元素就会组成一个新的RDD</div><div class="line">	JavaRDD&lt;Integer&gt; multipleNumberRDD = numberRDD.map(</div><div class="line">			new Function&lt;Integer, Integer&gt;() &#123;</div><div class="line">				private static final long serialVersionUID = 1L;</div><div class="line">				// 传入call()方法的，就是1,2,3,4,5，返回的就是2,4,6,8,10</div><div class="line">				@Override</div><div class="line">				public Integer call(Integer v1) throws Exception &#123;</div><div class="line">					return v1 * 2;</div><div class="line">				&#125;</div><div class="line">			&#125;);</div><div class="line">	</div><div class="line">	// 打印新的RDD</div><div class="line">	multipleNumberRDD.foreach(new VoidFunction&lt;Integer&gt;() &#123;</div><div class="line">		private static final long serialVersionUID = 1L;</div><div class="line">		@Override</div><div class="line">		public void call(Integer t) throws Exception &#123;</div><div class="line">			System.out.println(t);  </div><div class="line">		&#125;			</div><div class="line">	&#125;);</div><div class="line">	// 关闭JavaSparkContext</div><div class="line">	sc.close();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="filter算子案例：过滤集合中的偶数"><a href="#filter算子案例：过滤集合中的偶数" class="headerlink" title="filter算子案例：过滤集合中的偶数"></a>filter算子案例：过滤集合中的偶数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">private static void filter() &#123;</div><div class="line">	SparkConf conf = new SparkConf().setAppName(&quot;filter&quot;).setMaster(&quot;local&quot;);</div><div class="line">	JavaSparkContext sc = new JavaSparkContext(conf);</div><div class="line">	List&lt;Integer&gt; numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);</div><div class="line">	JavaRDD&lt;Integer&gt; numberRDD = sc.parallelize(numbers);</div><div class="line"></div><div class="line">	// 对初始RDD执行filter算子，过滤出其中的偶数</div><div class="line">	// filter算子，传入的也是Function，其他的使用注意点，实际上和map是一样的</div><div class="line">	// 不同的就是call()方法的返回类型是Boolean</div><div class="line">	// 每一个初始RDD中的元素，都会传入call()方法，此时可以执行各种自定义的计算逻辑来判断这个元素是否是你想要的</div><div class="line">	// 如果想在新的RDD中保留这个元素，那么就返回true；否则，不想保留这个元素，返回false</div><div class="line">	JavaRDD&lt;Integer&gt; evenNumberRDD = numberRDD.filter(</div><div class="line">			new Function&lt;Integer, Boolean&gt;() &#123;</div><div class="line">				private static final long serialVersionUID = 1L;</div><div class="line">				// 在这里，1到10，都会传入进来</div><div class="line">				// 但是根据逻辑，只有2,4,6,8,10这几个偶数，会返回true</div><div class="line">				// 所以，只有偶数会保留下来，放在新的RDD中</div><div class="line">				@Override</div><div class="line">				public Boolean call(Integer v1) throws Exception &#123;</div><div class="line">					return v1 % 2 == 0;</div><div class="line">				&#125;</div><div class="line">			&#125;);</div><div class="line">	</div><div class="line">	// 打印新的RDD</div><div class="line">	evenNumberRDD.foreach(new VoidFunction&lt;Integer&gt;() &#123;</div><div class="line">		private static final long serialVersionUID = 1L;</div><div class="line">		@Override</div><div class="line">		public void call(Integer t) throws Exception &#123;</div><div class="line">			System.out.println(t);</div><div class="line">		&#125; </div><div class="line">	&#125;); </div><div class="line">	sc.close();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="flatMap案例：将文本行拆分为多个单词"><a href="#flatMap案例：将文本行拆分为多个单词" class="headerlink" title="flatMap案例：将文本行拆分为多个单词"></a>flatMap案例：将文本行拆分为多个单词</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">private static void flatMap() &#123;</div><div class="line">	SparkConf conf = new SparkConf().setAppName(&quot;flatMap&quot;).setMaster(&quot;local&quot;);  </div><div class="line">	JavaSparkContext sc = new JavaSparkContext(conf);</div><div class="line">	List&lt;String&gt; lineList = Arrays.asList(&quot;hello you&quot;, &quot;hello me&quot;, &quot;hello world&quot;);  </div><div class="line">	JavaRDD&lt;String&gt; lines = sc.parallelize(lineList);</div><div class="line"></div><div class="line">	// 对RDD执行flatMap算子，将每一行文本，拆分为多个单词</div><div class="line">	// flatMap算子，在java中，接收的参数是FlatMapFunction，需要自己定义FlatMapFunction的第二个泛型类型，即，代表了返回的新元素的类型</div><div class="line">	// call()方法，返回的类型，不是U，而是Iterable&lt;U&gt;，这里的U也与第二个泛型类型相同</div><div class="line">	// flatMap其实就是，接收原始RDD中的每个元素，并进行各种逻辑的计算和处理，返回可以返回多个元素</div><div class="line">	// 多个元素，即封装在Iterable集合中，可以使用ArrayList等集合</div><div class="line">	// 新的RDD中，即封装了所有的新元素；也就是说，新的RDD的大小一定是 &gt;= 原始RDD的大小</div><div class="line">	JavaRDD&lt;String&gt; words = lines.flatMap(new FlatMapFunction&lt;String, String&gt;() &#123;</div><div class="line">		private static final long serialVersionUID = 1L;</div><div class="line">		// 在这里会，比如，传入第一行，hello you，返回的是一个Iterable&lt;String&gt;(hello, you)</div><div class="line">		@Override</div><div class="line">		public Iterable&lt;String&gt; call(String t) throws Exception &#123;</div><div class="line">			return Arrays.asList(t.split(&quot; &quot;));</div><div class="line">		&#125;</div><div class="line">	&#125;);</div><div class="line">	</div><div class="line">	// 打印新的RDD</div><div class="line">	words.foreach(new VoidFunction&lt;String&gt;() &#123;</div><div class="line">		private static final long serialVersionUID = 1L;</div><div class="line">		@Override</div><div class="line">		public void call(String t) throws Exception &#123;</div><div class="line">			System.out.println(t);</div><div class="line">		&#125;</div><div class="line">	&#125;);		</div><div class="line">	sc.close();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="groupByKey案例：按照班级对成绩进行分组"><a href="#groupByKey案例：按照班级对成绩进行分组" class="headerlink" title="groupByKey案例：按照班级对成绩进行分组"></a>groupByKey案例：按照班级对成绩进行分组</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">private static void groupByKey() &#123; </div><div class="line">	SparkConf conf = new SparkConf().setAppName(&quot;groupByKey&quot;).setMaster(&quot;local&quot;); </div><div class="line">	JavaSparkContext sc = new JavaSparkContext(conf); </div><div class="line">	List&lt;Tuple2&lt;String, Integer&gt;&gt; scoreList = Arrays.asList(</div><div class="line">			new Tuple2&lt;String, Integer&gt;(&quot;class1&quot;, 80),</div><div class="line">			new Tuple2&lt;String, Integer&gt;(&quot;class2&quot;, 75),</div><div class="line">			new Tuple2&lt;String, Integer&gt;(&quot;class1&quot;, 90),</div><div class="line">			new Tuple2&lt;String, Integer&gt;(&quot;class2&quot;, 65)</div><div class="line">	); </div><div class="line">	JavaPairRDD&lt;String, Integer&gt; scores = sc.parallelizePairs(scoreList);</div><div class="line">	</div><div class="line">	// 针对scores RDD，执行groupByKey算子，对每个班级的成绩进行分组</div><div class="line">	// groupByKey算子，返回的还是JavaPairRDD</div><div class="line">	// 但是，JavaPairRDD的第一个泛型类型不变，第二个泛型类型变成Iterable这种集合类型</div><div class="line">	// 也就是说，按照了key进行分组，那么每个key可能都会有多个value，此时多个value聚合成了Iterable</div><div class="line">	// 那么接下来，我们是不是就可以通过groupedScores这种JavaPairRDD，很方便地处理某个分组内的数据</div><div class="line">	JavaPairRDD&lt;String, Iterable&lt;Integer&gt;&gt; groupedScores = scores.groupByKey();</div><div class="line">	</div><div class="line">	// 打印groupedScores RDD</div><div class="line">	groupedScores.foreach(new VoidFunction&lt;Tuple2&lt;String,Iterable&lt;Integer&gt;&gt;&gt;() &#123;</div><div class="line">		private static final long serialVersionUID = 1L;</div><div class="line">		@Override</div><div class="line">		public void call(Tuple2&lt;String, Iterable&lt;Integer&gt;&gt; t) throws Exception &#123;</div><div class="line">			System.out.println(&quot;class: &quot; + t._1);  </div><div class="line">			Iterator&lt;Integer&gt; ite = t._2.iterator();</div><div class="line">			while(ite.hasNext()) &#123;</div><div class="line">				System.out.println(ite.next());  </div><div class="line">			&#125;</div><div class="line">			System.out.println(&quot;==============================&quot;);   </div><div class="line">		&#125;</div><div class="line">	&#125;);</div><div class="line">		sc.close();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="reduceByKey案例：统计每个班级的总分"><a href="#reduceByKey案例：统计每个班级的总分" class="headerlink" title="reduceByKey案例：统计每个班级的总分"></a>reduceByKey案例：统计每个班级的总分</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">private static void reduceByKey() &#123; </div><div class="line">	SparkConf conf = new SparkConf().setAppName(&quot;reduceByKey&quot;).setMaster(&quot;local&quot;); </div><div class="line">	JavaSparkContext sc = new JavaSparkContext(conf); </div><div class="line">	List&lt;Tuple2&lt;String, Integer&gt;&gt; scoreList = Arrays.asList(</div><div class="line">			new Tuple2&lt;String, Integer&gt;(&quot;class1&quot;, 80),</div><div class="line">			new Tuple2&lt;String, Integer&gt;(&quot;class2&quot;, 75),</div><div class="line">			new Tuple2&lt;String, Integer&gt;(&quot;class1&quot;, 90),</div><div class="line">			new Tuple2&lt;String, Integer&gt;(&quot;class2&quot;, 65)</div><div class="line">	);</div><div class="line">	JavaPairRDD&lt;String, Integer&gt; scores = sc.parallelizePairs(scoreList);</div><div class="line">	</div><div class="line">	// 针对scores RDD，执行reduceByKey算子</div><div class="line">	// reduceByKey，接收的参数是Function2类型，它有三个泛型参数，实际上代表了三个值</div><div class="line">	// 第一个泛型类型和第二个泛型类型，代表了原始RDD中的元素的value的类型</div><div class="line">		// 因此对每个key进行reduce，都会依次将第一个、第二个value传入，将值再与第三个value传入</div><div class="line">		// 因此此处，会自动定义两个泛型类型，代表call()方法的两个传入参数的类型</div><div class="line">	// 第三个泛型类型，代表了每次reduce操作返回的值的类型，默认也是与原始RDD的value类型相同的</div><div class="line">	// reduceByKey算法返回的RDD，还是JavaPairRDD&lt;key, value&gt;</div><div class="line">	JavaPairRDD&lt;String, Integer&gt; totalScores = scores.reduceByKey(				</div><div class="line">			new Function2&lt;Integer, Integer, Integer&gt;() &#123; </div><div class="line">				private static final long serialVersionUID = 1L; </div><div class="line">				// 对每个key，都会将其value，依次传入call方法</div><div class="line">				// 从而聚合出每个key对应的一个value</div><div class="line">				// 然后，将每个key对应的一个value，组合成一个Tuple2，作为新RDD的元素</div><div class="line">				@Override</div><div class="line">				public Integer call(Integer v1, Integer v2) throws Exception &#123;</div><div class="line">					return v1 + v2;</div><div class="line">				&#125; </div><div class="line">			&#125;); </div><div class="line">	// 打印totalScores RDD</div><div class="line">	totalScores.foreach(new VoidFunction&lt;Tuple2&lt;String,Integer&gt;&gt;() &#123;</div><div class="line">		private static final long serialVersionUID = 1L;</div><div class="line">		@Override</div><div class="line">		public void call(Tuple2&lt;String, Integer&gt; t) throws Exception &#123;</div><div class="line">			System.out.println(t._1 + &quot;: &quot; + t._2);   </div><div class="line">		&#125; </div><div class="line">	&#125;); </div><div class="line">	sc.close();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="sortByKey案例：按照学生分数进行排序"><a href="#sortByKey案例：按照学生分数进行排序" class="headerlink" title="sortByKey案例：按照学生分数进行排序"></a>sortByKey案例：按照学生分数进行排序</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">private static void sortByKey() &#123; </div><div class="line">	SparkConf conf = new SparkConf().setAppName(&quot;sortByKey&quot;).setMaster(&quot;local&quot;); </div><div class="line">	JavaSparkContext sc = new JavaSparkContext(conf); </div><div class="line">	List&lt;Tuple2&lt;Integer, String&gt;&gt; scoreList = Arrays.asList(</div><div class="line">			new Tuple2&lt;Integer, String&gt;(65, &quot;leo&quot;),</div><div class="line">			new Tuple2&lt;Integer, String&gt;(50, &quot;tom&quot;),</div><div class="line">			new Tuple2&lt;Integer, String&gt;(100, &quot;marry&quot;),</div><div class="line">			new Tuple2&lt;Integer, String&gt;(80, &quot;jack&quot;)</div><div class="line">	); </div><div class="line">	JavaPairRDD&lt;Integer, String&gt; scores = sc.parallelizePairs(scoreList);</div><div class="line">	</div><div class="line">	// 对scores RDD执行sortByKey算子</div><div class="line">	// sortByKey其实就是根据key进行排序，可以手动指定升序，或者降序</div><div class="line">	// 返回的，还是JavaPairRDD，其中的元素内容，都是和原始的RDD一模一样的</div><div class="line">	// 但是就是RDD中的元素的顺序，不同了</div><div class="line">	JavaPairRDD&lt;Integer, String&gt; sortedScores = scores.sortByKey(false);   </div><div class="line">	// 打印sortedScored RDD</div><div class="line">	sortedScores.foreach(new VoidFunction&lt;Tuple2&lt;Integer,String&gt;&gt;() &#123;</div><div class="line">		private static final long serialVersionUID = 1L;</div><div class="line">		@Override</div><div class="line">		public void call(Tuple2&lt;Integer, String&gt; t) throws Exception &#123;</div><div class="line">			System.out.println(t._1 + &quot;: &quot; + t._2);  </div><div class="line">		&#125; </div><div class="line">	&#125;);</div><div class="line">		sc.close();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="join案例：打印学生成绩"><a href="#join案例：打印学生成绩" class="headerlink" title="join案例：打印学生成绩"></a>join案例：打印学生成绩</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line">private static void join() &#123; </div><div class="line">	SparkConf conf = new SparkConf().setAppName(&quot;join&quot;).setMaster(&quot;local&quot;); </div><div class="line">	JavaSparkContext sc = new JavaSparkContext(conf); </div><div class="line">	List&lt;Tuple2&lt;Integer, String&gt;&gt; studentList = Arrays.asList(</div><div class="line">			new Tuple2&lt;Integer, String&gt;(1, &quot;leo&quot;),</div><div class="line">			new Tuple2&lt;Integer, String&gt;(2, &quot;jack&quot;),</div><div class="line">			new Tuple2&lt;Integer, String&gt;(3, &quot;tom&quot;)</div><div class="line">	);</div><div class="line">	List&lt;Tuple2&lt;Integer, Integer&gt;&gt; scoreList = Arrays.asList(</div><div class="line">			new Tuple2&lt;Integer, Integer&gt;(1, 100),</div><div class="line">			new Tuple2&lt;Integer, Integer&gt;(2, 90),</div><div class="line">			new Tuple2&lt;Integer, Integer&gt;(3, 60)</div><div class="line">	);</div><div class="line">	</div><div class="line">	// 并行化两个RDD</div><div class="line">	JavaPairRDD&lt;Integer, String&gt; students = sc.parallelizePairs(studentList);</div><div class="line">	JavaPairRDD&lt;Integer, Integer&gt; scores = sc.parallelizePairs(scoreList);</div><div class="line">	</div><div class="line">	// 使用join算子关联两个RDD</div><div class="line">	// join以后，还是会根据key进行join，并返回JavaPairRDD</div><div class="line">	// 但是JavaPairRDD的第一个泛型类型，之前两个JavaPairRDD的key的类型，因为是通过key进行join的</div><div class="line">	// 第二个泛型类型，是Tuple2&lt;v1, v2&gt;的类型，Tuple2的两个泛型分别为原始RDD的value的类型</div><div class="line">	// join，就返回的RDD的每一个元素，就是通过key join上的一个pair</div><div class="line">	// 什么意思呢？比如有(1, 1) (1, 2) (1, 3)的一个RDD</div><div class="line">		// 还有一个(1, 4) (2, 1) (2, 2)的一个RDD</div><div class="line">		// 如果是cogroup的话，会是(1,((1,2,3),(4)))    </div><div class="line">		// join以后，实际上会得到(1 (1, 4)) (1, (2, 4)) (1, (3, 4))	</div><div class="line">	JavaPairRDD&lt;Integer, Tuple2&lt;String, Integer&gt;&gt; studentScores = students.join(scores);</div><div class="line">	</div><div class="line">	// 打印studnetScores RDD</div><div class="line">	studentScores.foreach( </div><div class="line">			new VoidFunction&lt;Tuple2&lt;Integer,Tuple2&lt;String,Integer&gt;&gt;&gt;() &#123;</div><div class="line">				private static final long serialVersionUID = 1L;</div><div class="line">				@Override</div><div class="line">				public void call(Tuple2&lt;Integer, Tuple2&lt;String, Integer&gt;&gt; t) throws Exception &#123;</div><div class="line">					System.out.println(&quot;student id: &quot; + t._1);  </div><div class="line">					System.out.println(&quot;student name: &quot; + t._2._1);  </div><div class="line">					System.out.println(&quot;student score: &quot; + t._2._2);</div><div class="line">					System.out.println(&quot;===============================&quot;);   </div><div class="line">				&#125; </div><div class="line">			&#125;); </div><div class="line">	sc.close();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="cogroup案例：打印学生成绩"><a href="#cogroup案例：打印学生成绩" class="headerlink" title="cogroup案例：打印学生成绩"></a>cogroup案例：打印学生成绩</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">	private static void cogroup() &#123; </div><div class="line">		SparkConf conf = new SparkConf().setAppName(&quot;cogroup&quot;).setMaster(&quot;local&quot;); </div><div class="line">		JavaSparkContext sc = new JavaSparkContext(conf); </div><div class="line">		List&lt;Tuple2&lt;Integer, String&gt;&gt; studentList = Arrays.asList(</div><div class="line">				new Tuple2&lt;Integer, String&gt;(1, &quot;leo&quot;),</div><div class="line">				new Tuple2&lt;Integer, String&gt;(2, &quot;jack&quot;),</div><div class="line">				new Tuple2&lt;Integer, String&gt;(3, &quot;tom&quot;)</div><div class="line">		);</div><div class="line">		List&lt;Tuple2&lt;Integer, Integer&gt;&gt; scoreList = Arrays.asList(</div><div class="line">				new Tuple2&lt;Integer, Integer&gt;(1, 100),</div><div class="line">				new Tuple2&lt;Integer, Integer&gt;(2, 90),</div><div class="line">				new Tuple2&lt;Integer, Integer&gt;(3, 60),</div><div class="line">				new Tuple2&lt;Integer, Integer&gt;(1, 70),</div><div class="line">				new Tuple2&lt;Integer, Integer&gt;(2, 80),</div><div class="line">				new Tuple2&lt;Integer, Integer&gt;(3, 50)</div><div class="line">		);</div><div class="line">		</div><div class="line">		// 并行化两个RDD</div><div class="line">		JavaPairRDD&lt;Integer, String&gt; students = sc.parallelizePairs(studentList);</div><div class="line">		JavaPairRDD&lt;Integer, Integer&gt; scores = sc.parallelizePairs(scoreList);</div><div class="line">		</div><div class="line">		// cogroup与join不同,相当于是，一个key join上的所有value，都给放到一个Iterable里面去了 </div><div class="line">		JavaPairRDD&lt;Integer, Tuple2&lt;Iterable&lt;String&gt;, Iterable&lt;Integer&gt;&gt;&gt; studentScores = students.cogroup(scores);</div><div class="line">		// 打印studnetScores RDD</div><div class="line">		studentScores.foreach(				</div><div class="line">				new VoidFunction&lt;Tuple2&lt;Integer,Tuple2&lt;Iterable&lt;String&gt;,Iterable&lt;Integer&gt;&gt;&gt;&gt;() &#123;</div><div class="line">					private static final long serialVersionUID = 1L;</div><div class="line">					@Override</div><div class="line">					public void call(Tuple2&lt;Integer, Tuple2&lt;Iterable&lt;String&gt;, Iterable&lt;Integer&gt;&gt;&gt; t) throws Exception &#123;</div><div class="line">						System.out.println(&quot;student id: &quot; + t._1);  </div><div class="line">						System.out.println(&quot;student name: &quot; + t._2._1);  </div><div class="line">						System.out.println(&quot;student score: &quot; + t._2._2);</div><div class="line">						System.out.println(&quot;===============================&quot;);   </div><div class="line">					&#125; </div><div class="line">				&#125;); </div><div class="line">		sc.close();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+            <a href="/tags/spark/" rel="tag"># spark</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/14/spark核心编程-创建RDD/" rel="next" title="spark核心编程-创建RDD">
+                <i class="fa fa-chevron-left"></i> spark核心编程-创建RDD
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/14/spark核心编程-RDD持久化/" rel="prev" title="spark核心编程-RDD持久化">
+                spark核心编程-RDD持久化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.gif"
+              alt="sly_jupiter" />
+          
+            <p class="site-author-name" itemprop="name">sly_jupiter</p>
+            <p class="site-description motion-element" itemprop="description">the time you enjoy wasting, is not wasted</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/sly-jupiter" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:sly_jupiter@126.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://instagram.com/sly_shalieyan" target="_blank" title="Instagram">
+                  
+                    <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/5667238614" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>微博</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=38358214&auto=1&height=66">
+        </iframe>
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RDD算子"><span class="nav-text">RDD算子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概念"><span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RDD算子分类"><span class="nav-text">RDD算子分类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#transformation算子分类"><span class="nav-text">transformation算子分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Value数据类型的Transformation算子"><span class="nav-text">Value数据类型的Transformation算子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输入分区与输出分区一对一型"><span class="nav-text">输入分区与输出分区一对一型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入分区与输出分区多对一型"><span class="nav-text">输入分区与输出分区多对一型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入分区与输出分区多对多型"><span class="nav-text">输入分区与输出分区多对多型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出分区为输入分区子集型"><span class="nav-text">输出分区为输入分区子集型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cache型"><span class="nav-text">Cache型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Key-Value数据类型的Transfromation算子"><span class="nav-text">Key-Value数据类型的Transfromation算子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输入分区与输出分区一对一"><span class="nav-text">输入分区与输出分区一对一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对单个RDD聚集"><span class="nav-text">对单个RDD聚集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对两个RDD聚集"><span class="nav-text">对两个RDD聚集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连接"><span class="nav-text">连接</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#transformation操作实例"><span class="nav-text">transformation操作实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#主方法"><span class="nav-text">主方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#map算子案例：将集合中每一个元素都乘以2"><span class="nav-text">map算子案例：将集合中每一个元素都乘以2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#filter算子案例：过滤集合中的偶数"><span class="nav-text">filter算子案例：过滤集合中的偶数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flatMap案例：将文本行拆分为多个单词"><span class="nav-text">flatMap案例：将文本行拆分为多个单词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#groupByKey案例：按照班级对成绩进行分组"><span class="nav-text">groupByKey案例：按照班级对成绩进行分组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reduceByKey案例：统计每个班级的总分"><span class="nav-text">reduceByKey案例：统计每个班级的总分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sortByKey案例：按照学生分数进行排序"><span class="nav-text">sortByKey案例：按照学生分数进行排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#join案例：打印学生成绩"><span class="nav-text">join案例：打印学生成绩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cogroup案例：打印学生成绩"><span class="nav-text">cogroup案例：打印学生成绩</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></scriFpt>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">slysly_jupiter</span>
+
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+  ��վ�ÿ���:<span id="busuanzi_value_site_pv"></span>
+</span>
+</div>
+
+
+  <div class="powered-by">   </div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">blog &mdash;   v5.1.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
