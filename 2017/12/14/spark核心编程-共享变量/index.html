@@ -69,17 +69,17 @@
 
 
 
-<meta name="description" content="spark核心编程之共享变量共享变量工作原理spark中一个非常重要的特性：共享变量默认，若在一个算子的函数中使用到某个外部的变量。那么这个变量的值会被copy到每个task中。此时每个task只能操作自己复制的那个变量副本。要是多个task想要共享某个变量，这个方法就不能做到了。 所以，Spark提供了两种共享变量  Broadcast Variable(广播变量)Spark提供的Broadca">
+<meta name="description" content="spark核心编程之共享变量共享变量工作原理spark中一个非常重要的特性：共享变量默认，若在一个算子的函数中使用到某个外部的变量。那么这个变量的值会被copy到每个task中。此时每个task只能操作自己复制的那个变量副本。要是多个task想要共享某个变量，这个方法就不能做到了。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spark核心编程-共享变量">
 <meta property="og:url" content="http://yoursite.com/2017/12/14/spark核心编程-共享变量/index.html">
 <meta property="og:site_name" content="Sly_Jupiter">
-<meta property="og:description" content="spark核心编程之共享变量共享变量工作原理spark中一个非常重要的特性：共享变量默认，若在一个算子的函数中使用到某个外部的变量。那么这个变量的值会被copy到每个task中。此时每个task只能操作自己复制的那个变量副本。要是多个task想要共享某个变量，这个方法就不能做到了。 所以，Spark提供了两种共享变量  Broadcast Variable(广播变量)Spark提供的Broadca">
+<meta property="og:description" content="spark核心编程之共享变量共享变量工作原理spark中一个非常重要的特性：共享变量默认，若在一个算子的函数中使用到某个外部的变量。那么这个变量的值会被copy到每个task中。此时每个task只能操作自己复制的那个变量副本。要是多个task想要共享某个变量，这个方法就不能做到了。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-14T09:56:39.741Z">
+<meta property="og:updated_time" content="2017-12-22T01:33:27.398Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spark核心编程-共享变量">
-<meta name="twitter:description" content="spark核心编程之共享变量共享变量工作原理spark中一个非常重要的特性：共享变量默认，若在一个算子的函数中使用到某个外部的变量。那么这个变量的值会被copy到每个task中。此时每个task只能操作自己复制的那个变量副本。要是多个task想要共享某个变量，这个方法就不能做到了。 所以，Spark提供了两种共享变量  Broadcast Variable(广播变量)Spark提供的Broadca">
+<meta name="twitter:description" content="spark核心编程之共享变量共享变量工作原理spark中一个非常重要的特性：共享变量默认，若在一个算子的函数中使用到某个外部的变量。那么这个变量的值会被copy到每个task中。此时每个task只能操作自己复制的那个变量副本。要是多个task想要共享某个变量，这个方法就不能做到了。">
 
 
 
@@ -339,7 +339,7 @@
       
 
       
-        <h1 id="spark核心编程之共享变量"><a href="#spark核心编程之共享变量" class="headerlink" title="spark核心编程之共享变量"></a>spark核心编程之共享变量</h1><h2 id="共享变量工作原理"><a href="#共享变量工作原理" class="headerlink" title="共享变量工作原理"></a>共享变量工作原理</h2><p>spark中一个非常重要的特性：共享变量<br>默认，若在一个算子的函数中使用到某个外部的变量。那么这个变量的值会被copy到每个task中。此时每个task只能操作自己复制的那个变量副本。要是多个task想要共享某个变量，这个方法就不能做到了。</p>
+        <h1 id="spark核心编程之共享变量"><a href="#spark核心编程之共享变量" class="headerlink" title="spark核心编程之共享变量"></a>spark核心编程之共享变量</h1><h2 id="共享变量工作原理"><a href="#共享变量工作原理" class="headerlink" title="共享变量工作原理"></a>共享变量工作原理</h2><p>spark中一个非常重要的特性：共享变量<br>默认，若在一个算子的函数中使用到某个外部的变量。那么这个变量的值会被copy到每个task中。此时每个task只能操作自己复制的那个变量副本。要是多个task想要共享某个变量，这个方法就不能做到了。<br><a id="more"></a></p>
 <p>所以，Spark提供了两种共享变量</p>
 <ol>
 <li>Broadcast Variable(广播变量)<br>Spark提供的Broadcast Variable，是只读的。并且在每个节点上只会有一份副本，而不会为每个task都拷贝一份副本。因此其最大作用，就是减少变量到各个节点的网络传输消耗，以及在各个节点上的内存消耗。此外，spark自己内部也使用了高效的广播算法来减少网络消耗。</li>
