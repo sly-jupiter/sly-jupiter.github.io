@@ -69,18 +69,18 @@
 
 
 
-<meta name="description" content="Action算子Action 算子会触发 Spark 提交作业（Job），并将数据输出 Spark系统分类： 无输出： foreach算子foreach 对 RDD 中的每个元素都应用 f 函数操作，不返回 RDD 和 Array， 而是返回Uint。">
+<meta name="description" content="Action算子Action 算子会触发 Spark 提交作业（Job），并将数据输出 Spark系统 action原理action：对RDD进行最后的操作，例如：遍历、reduce、保存到文件等，并且可以返回结果给Dirver程序。action操作的执行，会触发一个spark job的运行，从而触发这个action之前的所有的transformation操作的执行。 分类： 无输出： forea">
 <meta name="keywords" content="大数据,spark">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spark核心编程-action操作">
 <meta property="og:url" content="http://yoursite.com/2017/12/22/spark核心编程-action操作/index.html">
 <meta property="og:site_name" content="Sly_Jupiter">
-<meta property="og:description" content="Action算子Action 算子会触发 Spark 提交作业（Job），并将数据输出 Spark系统分类： 无输出： foreach算子foreach 对 RDD 中的每个元素都应用 f 函数操作，不返回 RDD 和 Array， 而是返回Uint。">
+<meta property="og:description" content="Action算子Action 算子会触发 Spark 提交作业（Job），并将数据输出 Spark系统 action原理action：对RDD进行最后的操作，例如：遍历、reduce、保存到文件等，并且可以返回结果给Dirver程序。action操作的执行，会触发一个spark job的运行，从而触发这个action之前的所有的transformation操作的执行。 分类： 无输出： forea">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-22T08:31:37.768Z">
+<meta property="og:updated_time" content="2017-12-25T02:47:59.948Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spark核心编程-action操作">
-<meta name="twitter:description" content="Action算子Action 算子会触发 Spark 提交作业（Job），并将数据输出 Spark系统分类： 无输出： foreach算子foreach 对 RDD 中的每个元素都应用 f 函数操作，不返回 RDD 和 Array， 而是返回Uint。">
+<meta name="twitter:description" content="Action算子Action 算子会触发 Spark 提交作业（Job），并将数据输出 Spark系统 action原理action：对RDD进行最后的操作，例如：遍历、reduce、保存到文件等，并且可以返回结果给Dirver程序。action操作的执行，会触发一个spark job的运行，从而触发这个action之前的所有的transformation操作的执行。 分类： 无输出： forea">
 
 
 
@@ -384,7 +384,9 @@
       
 
       
-        <h1 id="Action算子"><a href="#Action算子" class="headerlink" title="Action算子"></a>Action算子</h1><p>Action 算子会触发 Spark 提交作业（Job），并将数据输出 Spark系统<br>分类：</p>
+        <h1 id="Action算子"><a href="#Action算子" class="headerlink" title="Action算子"></a>Action算子</h1><p>Action 算子会触发 Spark 提交作业（Job），并将数据输出 Spark系统</p>
+<h2 id="action原理"><a href="#action原理" class="headerlink" title="action原理"></a>action原理</h2><p>action：对RDD进行最后的操作，例如：遍历、reduce、保存到文件等，并且可以返回结果给Dirver程序。action操作的执行，会触发一个spark job的运行，从而触发这个action之前的所有的transformation操作的执行。</p>
+<p>分类：</p>
 <h2 id="无输出："><a href="#无输出：" class="headerlink" title="无输出："></a>无输出：</h2><ol>
 <li>foreach算子<br>foreach 对 RDD 中的每个元素都应用 f 函数操作，不返回 RDD 和 Array， 而是返回Uint。 </li>
 </ol>
@@ -630,7 +632,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Action算子"><span class="nav-text">Action算子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#无输出："><span class="nav-text">无输出：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HDFS："><span class="nav-text">HDFS：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scala集合和数据类型"><span class="nav-text">Scala集合和数据类型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#action操作实例"><span class="nav-text">action操作实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#主方法"><span class="nav-text">主方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reduce算子案例"><span class="nav-text">reduce算子案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#collect算子案例："><span class="nav-text">collect算子案例：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#count算子案例"><span class="nav-text">count算子案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#take算子案例"><span class="nav-text">take算子案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#saveAsTextFile算子案例"><span class="nav-text">saveAsTextFile算子案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#countByKey算子案例"><span class="nav-text">countByKey算子案例</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Action算子"><span class="nav-text">Action算子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#action原理"><span class="nav-text">action原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无输出："><span class="nav-text">无输出：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HDFS："><span class="nav-text">HDFS：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scala集合和数据类型"><span class="nav-text">Scala集合和数据类型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#action操作实例"><span class="nav-text">action操作实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#主方法"><span class="nav-text">主方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reduce算子案例"><span class="nav-text">reduce算子案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#collect算子案例："><span class="nav-text">collect算子案例：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#count算子案例"><span class="nav-text">count算子案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#take算子案例"><span class="nav-text">take算子案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#saveAsTextFile算子案例"><span class="nav-text">saveAsTextFile算子案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#countByKey算子案例"><span class="nav-text">countByKey算子案例</span></a></li></ol></li></ol></div>
             
 
           </div>
