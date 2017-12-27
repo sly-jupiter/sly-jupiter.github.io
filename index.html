@@ -272,6 +272,147 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/27/zookeeper踩坑记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sly_jupiter">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sly_Jupiter">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/27/zookeeper踩坑记录/" itemprop="url">zookeeper踩坑记录</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-27T09:35:46+08:00">
+                2017-12-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#. zookeeper启动报错如图<br><img src="/2017/12/27/zookeeper踩坑记录/2.png" alt=""></p>
+<p>解决：</p>
+<ol>
+<li><p>验证jdk是否正确安装<br><img src="/2017/12/27/zookeeper踩坑记录/3.png" alt=""></p>
+</li>
+<li><p>查看zookeeper的端口2181是否已经被占用<br><img src="/2017/12/27/zookeeper踩坑记录/4.png" alt=""></p>
+</li>
+<li><p>若被占用，杀死进程<br><img src="/2017/12/27/zookeeper踩坑记录/5.png" alt=""></p>
+</li>
+<li><p>做完上面这一步应该就可以启动zookeeper了，若还不可以就继续试试以下步骤</p>
+</li>
+<li><p>在你创建myid的文件夹下，查看文件内容，若有version-2文件夹和zookeeper_server.pid，都删除<br><img src="/2017/12/27/zookeeper踩坑记录/6.png" alt=""><br><img src="/2017/12/27/zookeeper踩坑记录/7.png" alt=""></p>
+</li>
+<li><p>再次尝试启动zookeeper<br>注意：启动的时候要等所有的节点都启动，否则第一个节点会报错，全部启动后将不再报错<br><img src="/2017/12/27/zookeeper踩坑记录/9.png" alt=""></p>
+</li>
+<li><p>jps查看<br><img src="/2017/12/27/zookeeper踩坑记录/10.png" alt=""></p>
+</li>
+<li><p>验证zookeeper是否正确启动<br><img src="/2017/12/27/zookeeper踩坑记录/11.png" alt=""></p>
+</li>
+<li><p>或者尝试在root用户下启动zookeeper</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/24/super-junior/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -314,6 +455,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生活/" itemprop="url" rel="index">
+                    <span itemprop="name">生活</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -343,8 +506,8 @@
       
         
           
-            <p>Super Junior  — — — — —   One More Chance<br>by    李东海</p>
-<p>PS:建议关闭站点背景音乐</p>
+            <h1 id="Super-Junior-—-—-—-—-One-More-Chance"><a href="#Super-Junior-—-—-—-—-One-More-Chance" class="headerlink" title="Super Junior  — — — —   One More Chance"></a>Super Junior  — — — —   One More Chance</h1><p>by    李东海</p>
+<p>PS:建议关闭站点背景音乐 以及 弹幕 享用</p>
 <iframe height="600" width="750" src="https://www.bilibili.com/video/av15890062/?from=search&seid=7452774775805561515" frameborder="0" allowfullscreen><br></iframe>  
 
 
@@ -1704,152 +1867,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/04/程序猿面试经典——记录/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="sly_jupiter">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sly_Jupiter">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/04/程序猿面试经典——记录/" itemprop="url">程序猿面试经典——记录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-04T14:08:19+08:00">
-                2017-12-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="day1"><a href="#day1" class="headerlink" title="day1"></a>day1</h1>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/04/程序猿面试经典——记录/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1905,7 +1922,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-count">36</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1916,7 +1933,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1927,7 +1944,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
