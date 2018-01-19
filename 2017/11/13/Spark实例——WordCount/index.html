@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="大数据,Spark," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="java实现的Wordcount步骤 配置maven信息 编写程序 进行本地测试 使用spark-submit提交到spark集群上执行程序，类似于Hadoop jar命令。  代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859">
+<meta name="keywords" content="大数据,Spark">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark实例——WordCount">
+<meta property="og:url" content="http://yoursite.com/2017/11/13/Spark实例——WordCount/index.html">
+<meta property="og:site_name" content="Sly_Jupiter">
+<meta property="og:description" content="java实现的Wordcount步骤 配置maven信息 编写程序 进行本地测试 使用spark-submit提交到spark集群上执行程序，类似于Hadoop jar命令。  代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/11/13/Spark实例——WordCount/sh.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/13/Spark实例——WordCount/7.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/13/Spark实例——WordCount/6.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/13/Spark实例——WordCount/5.png">
+<meta property="og:image" content="http://yoursite.com/2017/11/13/Spark实例——WordCount/1.png">
+<meta property="og:updated_time" content="2018-01-19T09:57:17.883Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spark实例——WordCount">
+<meta name="twitter:description" content="java实现的Wordcount步骤 配置maven信息 编写程序 进行本地测试 使用spark-submit提交到spark集群上执行程序，类似于Hadoop jar命令。  代码1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859">
+<meta name="twitter:image" content="http://yoursite.com/2017/11/13/Spark实例——WordCount/sh.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/13/Spark实例——WordCount/"/>
+
+
+
+
+
+  <title>Spark实例——WordCount | Sly_Jupiter</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sly_Jupiter</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">在更迭的人海里</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/13/Spark实例——WordCount/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sly_jupiter">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sly_Jupiter">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spark实例——WordCount</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-13T10:45:27+08:00">
+                2017-11-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/大数据/Spark/" itemprop="url" rel="index">
+                    <span itemprop="name">Spark</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="java实现的Wordcount"><a href="#java实现的Wordcount" class="headerlink" title="java实现的Wordcount"></a>java实现的Wordcount</h1><h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ol>
+<li>配置maven信息</li>
+<li>编写程序</li>
+<li>进行本地测试</li>
+<li>使用spark-submit提交到spark集群上执行程序，类似于Hadoop jar命令。</li>
+</ol>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div></pre></td><td class="code"><pre><div class="line"> </div><div class="line">import java.util.Arrays;</div><div class="line">import org.apache.spark.SparkConf;</div><div class="line">import org.apache.spark.api.java.JavaPairRDD;</div><div class="line">import org.apache.spark.api.java.JavaRDD;</div><div class="line">import org.apache.spark.api.java.JavaSparkContext;</div><div class="line">import org.apache.spark.api.java.function.FlatMapFunction;</div><div class="line">import org.apache.spark.api.java.function.Function2;</div><div class="line">import org.apache.spark.api.java.function.PairFunction;</div><div class="line">import org.apache.spark.api.java.function.VoidFunction;</div><div class="line">import scala.Tuple2;</div><div class="line"></div><div class="line">// 使用java开发本地测试的wordcount程序</div><div class="line">public class WordCountLocal &#123;</div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		// 第一步：创建SparkConf对象，设置Spark应用的配置信息</div><div class="line">		// 使用setMaster()设置Spark应用程序要连接的Spark集群的master节点的url</div><div class="line">		// 当设置为local则代表在本地运行</div><div class="line">		SparkConf conf = new SparkConf().setAppName(&quot;WordCountLocal&quot;).setMaster(&quot;local&quot;);  </div><div class="line">		</div><div class="line">		// 第二步：创建JavaSparkContext对象</div><div class="line">		// 在Spark中，SparkContext是Spark所有功能的一个入口，无论是用java、scala，还是python编写</div><div class="line">			// 都必须要有一个SparkContext，它的主要作用，包括初始化Spark应用程序所需的一些核心组件，包括</div><div class="line">			// 调度器（DAGSchedule、TaskScheduler），还会去到Spark Master节点上进行注册，等等</div><div class="line">		// 即：SparkContext，是Spark应用中非常重要的一个对象</div><div class="line">		// 注意！！在Spark中，编写不同类型的Spark应用程序，使用的SparkContext是不同的，</div><div class="line">			// 如果使用scala，使用的就是原生的SparkContext对象</div><div class="line">			// 但是如果使用Java，那么就是JavaSparkContext对象</div><div class="line">			// 如果是开发Spark SQL程序，那么就是SQLContext、HiveContext</div><div class="line">			// 如果是开发Spark Streaming程序，那么就是它独有的SparkContext</div><div class="line">			// 以此类推</div><div class="line">		JavaSparkContext sc = new JavaSparkContext(conf);</div><div class="line">	</div><div class="line">		// 第三步：针对输入源（hdfs文件、本地文件等），创建一个初始的RDD</div><div class="line">		// 输入源中的数据会打散，分配到RDD的每个partition中，从而形成一个初始的分布式的数据集</div><div class="line">		// 此例因为是本地测试，所以针对本地文件</div><div class="line">		// SparkContext中，用于根据文件类型的输入源创建RDD的方法，叫做textFile()方法</div><div class="line">		// 在Java中，创建的普通RDD，都叫做JavaRDD</div><div class="line">		// RDD中有元素的概念，若是hdfs或者本地文件创建的RDD，每一个元素就相当于是文件里的一行</div><div class="line">		JavaRDD&lt;String&gt; lines = sc.textFile(&quot;C://Users//Administrator//Desktop//spark.txt&quot;);</div><div class="line">	</div><div class="line">		// 第四步：对初始RDD进行transformation（一些计算）操作</div><div class="line">		// 通常操作会通过创建function，并配合RDD的map、flatMap等算子来执行function</div><div class="line">		// 通常，如果function比较简单，则创建指定Function的匿名内部类</div><div class="line">		// 如果function比较复杂，则会单独创建一个类，作为实现这个function接口的类</div><div class="line">		// ** 先将每一行拆分成单个的单词</div><div class="line">		// FlatMapFunction，有两个泛型参数，分别代表了输入和输出类型</div><div class="line">		// 因为数据是文本，所以输入是String，，输出，其实也是String，因为是每一行的文本</div><div class="line">		// flatMap算子的作用：将RDD的一个元素，给拆分成一个或多个元素</div><div class="line">		JavaRDD&lt;String&gt; words = lines.flatMap(new FlatMapFunction&lt;String, String&gt;() &#123;</div><div class="line">			private static final long serialVersionUID = 1L;</div><div class="line">			@Override</div><div class="line">			public Iterable&lt;String&gt; call(String line) throws Exception &#123;</div><div class="line">				return Arrays.asList(line.split(&quot; &quot;));  </div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line"></div><div class="line">		</div><div class="line">		// 第五步：将每一个单词，映射为(单词, 1)的这种格式</div><div class="line">			// 因为只有这样，后面才能根据单词作为key，来进行每个单词的出现次数的累加</div><div class="line">		// mapToPair：将每个元素，映射为一个(v1,v2)这样的Tuple2类型的元素</div><div class="line">			// tuple2就是scala类型，包含了两个值</div><div class="line">		// mapToPair这个算子，要求的是与PairFunction配合使用，</div><div class="line">			//第一个泛型参数, 代表了输入类型 </div><div class="line">			//第二个泛型参数, 代表的输出的Tuple2的第一个值的类型</div><div class="line">			//第三个泛型参数，代表的输出的Tuple2的第二个值的类型</div><div class="line">		// JavaPairRDD的两个泛型参数，分别代表了tuple元素的第一个值和第二个值的类型</div><div class="line">		JavaPairRDD&lt;String, Integer&gt; pairs = words.mapToPair(</div><div class="line">				new PairFunction&lt;String, String, Integer&gt;() &#123;</div><div class="line">					private static final long serialVersionUID = 1L;</div><div class="line">					@Override</div><div class="line">					public Tuple2&lt;String, Integer&gt; call(String word) throws Exception &#123;</div><div class="line">						return new Tuple2&lt;String, Integer&gt;(word, 1);</div><div class="line">					&#125;</div><div class="line">				&#125;);</div><div class="line">		</div><div class="line">		// 第六步：以单词作为key，统计每个单词出现的次数</div><div class="line">		// 使用reduceByKey这个算子，对每个key对应的value，都进行reduce操作</div><div class="line">		// 比如JavaPairRDD中有几个元素，分别为(hello, 1) (hello, 1) (hello, 1) (world, 1)</div><div class="line">		// reduce操作，相当于是把第一个值和第二个值进行计算，然后再将结果与第三个值进行计算</div><div class="line">		// 比如这里的hello，那么就相当于是，首先是1 + 1 = 2，然后再将2 + 1 = 3</div><div class="line">		// 最后返回的JavaPairRDD中的元素，也是tuple，但是第一个值就是每个key，第二个值就是key的value</div><div class="line">		// reduce之后的结果，相当于就是每个单词出现的次数</div><div class="line">		JavaPairRDD&lt;String, Integer&gt; wordCounts = pairs.reduceByKey(</div><div class="line">				new Function2&lt;Integer, Integer, Integer&gt;() &#123;</div><div class="line">					private static final long serialVersionUID = 1L;</div><div class="line">					@Override</div><div class="line">					public Integer call(Integer v1, Integer v2) throws Exception &#123;</div><div class="line">						return v1 + v2;</div><div class="line">					&#125;</div><div class="line">				&#125;);</div><div class="line">		</div><div class="line"></div><div class="line">		// 第六步：虽然通过几个Spark算子操作，已经统计出了单词的次数</div><div class="line">		// 但是，之前使用的flatMap、mapToPair、reduceByKey这种操作，都叫做transformation操作</div><div class="line">		// 一个Spark应用中，光有transformation操作，是不会执行的，还要有一种操作叫做action</div><div class="line">		// 最后，使用一种叫做action操作的，比如说，foreach，来触发程序的执行</div><div class="line">		wordCounts.foreach(new VoidFunction&lt;Tuple2&lt;String,Integer&gt;&gt;() &#123;</div><div class="line">			private static final long serialVersionUID = 1L;</div><div class="line">			@Override</div><div class="line">			public void call(Tuple2&lt;String, Integer&gt; wordCount) throws Exception &#123;</div><div class="line">				System.out.println(wordCount._1 + &quot; appeared &quot; + wordCount._2 + &quot; times.&quot;);    </div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">		sc.close();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="wordcount-sh"><a href="#wordcount-sh" class="headerlink" title="wordcount.sh"></a>wordcount.sh</h2><p>执行脚本<br><img src="/2017/11/13/Spark实例——WordCount/sh.png" alt=""><br>修改权限<br><img src="/2017/11/13/Spark实例——WordCount/7.png" alt=""></p>
+<h2 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h2><p><img src="/2017/11/13/Spark实例——WordCount/6.png" alt=""><br><img src="/2017/11/13/Spark实例——WordCount/5.png" alt=""></p>
+<h1 id="scala实现的Wordcount"><a href="#scala实现的Wordcount" class="headerlink" title="scala实现的Wordcount"></a>scala实现的Wordcount</h1><h2 id="步骤-1"><a href="#步骤-1" class="headerlink" title="步骤"></a>步骤</h2><ol>
+<li>下载scala IDE for eclipse</li>
+<li>新建scala工程 </li>
+<li>项目中添加scala依赖包</li>
+<li>export出scala spark工程</li>
+<li>在spark集群上运行 </li>
+</ol>
+<a id="more"></a>
+<h2 id="程序"><a href="#程序" class="headerlink" title="程序"></a>程序</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">package cn.spark.study.core</div><div class="line"></div><div class="line">import org.apache.spark.SparkConf</div><div class="line">import org.apache.spark.SparkContext</div><div class="line"></div><div class="line">/**</div><div class="line"> * @author Administrator</div><div class="line"> */</div><div class="line">object WordCount &#123;</div><div class="line">  </div><div class="line">  def main(args: Array[String]) &#123;</div><div class="line">    val conf = new SparkConf().setAppName(&quot;WordCount&quot;).setMaster(&quot;local&quot;);</div><div class="line">    val sc = new SparkContext(conf)</div><div class="line">    </div><div class="line">    //集群模式下的</div><div class="line">//    val lines = sc.textFile(&quot;hdfs://master:9000/spark.txt&quot;, 1)</div><div class="line">    //本地模式下的</div><div class="line">    val lines = sc.textFile(&quot;C:/Users/Jupiter/Desktop/spark.txt&quot;, 1)</div><div class="line">    val words = lines.flatMap &#123; line =&gt; line.split(&quot; &quot;) &#125;   </div><div class="line">    val pairs = words.map &#123; word =&gt; (word, 1) &#125;   </div><div class="line">    val wordCounts = pairs.reduceByKey &#123; _ + _ &#125;</div><div class="line">    </div><div class="line">    wordCounts.foreach(wordCount =&gt; println(wordCount._1 + &quot; 出现 &quot; + wordCount._2 + &quot; 次.&quot;))  </div><div class="line">  &#125;</div><div class="line">  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="运行结果-1"><a href="#运行结果-1" class="headerlink" title="运行结果"></a>运行结果</h2><p><img src="/2017/11/13/Spark实例——WordCount/1.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/大数据/" rel="tag"># 大数据</a>
+          
+            <a href="/tags/Spark/" rel="tag"># Spark</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/13/spark/" rel="next" title="Spark 入门学习资料整理">
+                <i class="fa fa-chevron-left"></i> Spark 入门学习资料整理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/13/scala-一/" rel="prev" title="scala语法基础(一)">
+                scala语法基础(一) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          
+            <img class="site-author-image" itemprop="image"
+              src="/images/avatar.gif"
+              alt="sly_jupiter" />
+          
+            <p class="site-author-name" itemprop="name">sly_jupiter</p>
+            <p class="site-description motion-element" itemprop="description">the time you enjoy wasting, is not wasted</p>
+        </div>
+
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+            
+              <a href="/archives/">
+            
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/sly-jupiter" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>GitHub</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:sly_jupiter@126.com" target="_blank" title="E-Mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://instagram.com/sly_shalieyan" target="_blank" title="Instagram">
+                  
+                    <i class="fa fa-fw fa-instagram"></i>Instagram</a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/5667238614" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>微博</a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=38358214&auto=1&height=66">
+        </iframe>
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#java实现的Wordcount"><span class="nav-text">java实现的Wordcount</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤"><span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-text">代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wordcount-sh"><span class="nav-text">wordcount.sh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行结果"><span class="nav-text">运行结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#scala实现的Wordcount"><span class="nav-text">scala实现的Wordcount</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤-1"><span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序"><span class="nav-text">程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行结果-1"><span class="nav-text">运行结果</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></scriFpt>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">slysly_jupiter</span>
+
+  
+</div>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_pv">
+  ��վ�ÿ���:<span id="busuanzi_value_site_pv"></span>
+</span>
+</div>
+
+
+  <div class="powered-by">   </div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">blog &mdash;   v5.1.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

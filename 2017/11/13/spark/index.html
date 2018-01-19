@@ -53,7 +53,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="大数据,spark," />
+  <meta name="keywords" content="大数据,Spark," />
 
 
 
@@ -70,18 +70,17 @@
 
 
 <meta name="description" content="什么是SparkSpark 是一个用来实现快速而通用的集群计算的平台。Spark，是一种“one stack to rule them all 的大数据计算框架，期望使用一个技术堆栈完美的解决大数据领域的各种计算任务。Apache官方定义：通用的大数据快速处理引擎">
-<meta name="keywords" content="大数据,spark">
+<meta name="keywords" content="大数据,Spark">
 <meta property="og:type" content="article">
-<meta property="og:title" content="spark 入门学习资料整理">
+<meta property="og:title" content="Spark 入门学习资料整理">
 <meta property="og:url" content="http://yoursite.com/2017/11/13/spark/index.html">
 <meta property="og:site_name" content="Sly_Jupiter">
 <meta property="og:description" content="什么是SparkSpark 是一个用来实现快速而通用的集群计算的平台。Spark，是一种“one stack to rule them all 的大数据计算框架，期望使用一个技术堆栈完美的解决大数据领域的各种计算任务。Apache官方定义：通用的大数据快速处理引擎">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2017/11/13/spark/1.png">
-<meta property="og:image" content="http://yoursite.com/2017/11/13/spark/2.png">
-<meta property="og:updated_time" content="2018-01-16T09:32:46.164Z">
+<meta property="og:updated_time" content="2018-01-19T09:32:54.321Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="spark 入门学习资料整理">
+<meta name="twitter:title" content="Spark 入门学习资料整理">
 <meta name="twitter:description" content="什么是SparkSpark 是一个用来实现快速而通用的集群计算的平台。Spark，是一种“one stack to rule them all 的大数据计算框架，期望使用一个技术堆栈完美的解决大数据领域的各种计算任务。Apache官方定义：通用的大数据快速处理引擎">
 <meta name="twitter:image" content="http://yoursite.com/2017/11/13/spark/1.png">
 
@@ -119,7 +118,7 @@
 
 
 
-  <title>spark 入门学习资料整理 | Sly_Jupiter</title>
+  <title>Spark 入门学习资料整理 | Sly_Jupiter</title>
   
 
 
@@ -293,7 +292,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">spark 入门学习资料整理</h1>
+          <h1 class="post-title" itemprop="name headline">Spark 入门学习资料整理</h1>
         
 
         <div class="post-meta">
@@ -339,8 +338,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/大数据/spark/" itemprop="url" rel="index">
-                    <span itemprop="name">spark</span>
+                  <a href="/categories/大数据/Spark/" itemprop="url" rel="index">
+                    <span itemprop="name">Spark</span>
                   </a>
                 </span>
 
@@ -420,16 +419,6 @@
 <li><p>综上<br>实时性要求很高、实时数据量不稳定（例如在白天有高峰期）：选择storm<br>实时性要求一般（例如允许一秒的准实时处理）、 不要求动态调整并行度：选择 spark streaming</p>
 </li>
 </ol>
-<h1 id="第一个Spark程序——WordCount"><a href="#第一个Spark程序——WordCount" class="headerlink" title="第一个Spark程序——WordCount"></a>第一个Spark程序——WordCount</h1><p>三种实现方式</p>
-<h2 id="java开发的本地测试的WordCount"><a href="#java开发的本地测试的WordCount" class="headerlink" title="java开发的本地测试的WordCount"></a>java开发的本地测试的WordCount</h2><h3 id="需要的环境"><a href="#需要的环境" class="headerlink" title="需要的环境"></a>需要的环境</h3><p>Maven+Scala+Eclipse+Jdk</p>
-<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol>
-<li>配置maven信息</li>
-<li>编写程序</li>
-<li>进行本地测试</li>
-<li>使用spark-submit提交到spark集群上执行程序，类似于Hadoop jar命令。</li>
-</ol>
-<h3 id="程序"><a href="#程序" class="headerlink" title="程序"></a>程序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div></pre></td><td class="code"><pre><div class="line">package cn.spark.study.core;</div><div class="line"></div><div class="line">import java.util.Arrays;</div><div class="line">import org.apache.spark.SparkConf;</div><div class="line">import org.apache.spark.api.java.JavaPairRDD;</div><div class="line">import org.apache.spark.api.java.JavaRDD;</div><div class="line">import org.apache.spark.api.java.JavaSparkContext;</div><div class="line">import org.apache.spark.api.java.function.FlatMapFunction;</div><div class="line">import org.apache.spark.api.java.function.Function2;</div><div class="line">import org.apache.spark.api.java.function.PairFunction;</div><div class="line">import org.apache.spark.api.java.function.VoidFunction;</div><div class="line">import scala.Tuple2;</div><div class="line"></div><div class="line">// 使用java开发本地测试的wordcount程序</div><div class="line">  </div><div class="line">public class WordCountLocal &#123;</div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		// 第一步：创建SparkConf对象，设置Spark应用的配置信息</div><div class="line">		// 使用setMaster()设置Spark应用程序要连接的Spark集群的master节点的url</div><div class="line">		// 当设置为local则代表在本地运行</div><div class="line">		SparkConf conf = new SparkConf().setAppName(&quot;WordCountLocal&quot;).setMaster(&quot;local&quot;);  </div><div class="line">		</div><div class="line">		// 第二步：创建JavaSparkContext对象</div><div class="line">		// 在Spark中，SparkContext是Spark所有功能的一个入口，无论是用java、scala，还是python编写</div><div class="line">			// 都必须要有一个SparkContext，它的主要作用，包括初始化Spark应用程序所需的一些核心组件，包括</div><div class="line">			// 调度器（DAGSchedule、TaskScheduler），还会去到Spark Master节点上进行注册，等等</div><div class="line">		// 即：SparkContext，是Spark应用中非常重要的一个对象</div><div class="line">		// 注意！！在Spark中，编写不同类型的Spark应用程序，使用的SparkContext是不同的，</div><div class="line">			// 如果使用scala，使用的就是原生的SparkContext对象</div><div class="line">			// 但是如果使用Java，那么就是JavaSparkContext对象</div><div class="line">			// 如果是开发Spark SQL程序，那么就是SQLContext、HiveContext</div><div class="line">			// 如果是开发Spark Streaming程序，那么就是它独有的SparkContext</div><div class="line">			// 以此类推</div><div class="line">		JavaSparkContext sc = new JavaSparkContext(conf);</div><div class="line">	</div><div class="line">		// 第三步：针对输入源（hdfs文件、本地文件等），创建一个初始的RDD</div><div class="line">		// 输入源中的数据会打散，分配到RDD的每个partition中，从而形成一个初始的分布式的数据集</div><div class="line">		// 此例因为是本地测试，所以针对本地文件</div><div class="line">		// SparkContext中，用于根据文件类型的输入源创建RDD的方法，叫做textFile()方法</div><div class="line">		// 在Java中，创建的普通RDD，都叫做JavaRDD</div><div class="line">		// RDD中有元素的概念，若是hdfs或者本地文件创建的RDD，每一个元素就相当于是文件里的一行</div><div class="line">		JavaRDD&lt;String&gt; lines = sc.textFile(&quot;C://Users//Administrator//Desktop//spark.txt&quot;);</div><div class="line">	</div><div class="line">		// 第四步：对初始RDD进行transformation（一些计算）操作</div><div class="line">		// 通常操作会通过创建function，并配合RDD的map、flatMap等算子来执行function</div><div class="line">		// 通常，如果function比较简单，则创建指定Function的匿名内部类</div><div class="line">		// 如果function比较复杂，则会单独创建一个类，作为实现这个function接口的类</div><div class="line">		// ** 先将每一行拆分成单个的单词</div><div class="line">		// FlatMapFunction，有两个泛型参数，分别代表了输入和输出类型</div><div class="line">		// 因为数据是文本，所以输入是String，，输出，其实也是String，因为是每一行的文本</div><div class="line">		// flatMap算子的作用：将RDD的一个元素，给拆分成一个或多个元素</div><div class="line">		JavaRDD&lt;String&gt; words = lines.flatMap(new FlatMapFunction&lt;String, String&gt;() &#123;</div><div class="line">			private static final long serialVersionUID = 1L;</div><div class="line">			@Override</div><div class="line">			public Iterable&lt;String&gt; call(String line) throws Exception &#123;</div><div class="line">				return Arrays.asList(line.split(&quot; &quot;));  </div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line"></div><div class="line">		</div><div class="line">		// 第五步：将每一个单词，映射为(单词, 1)的这种格式</div><div class="line">			// 因为只有这样，后面才能根据单词作为key，来进行每个单词的出现次数的累加</div><div class="line">		// mapToPair：将每个元素，映射为一个(v1,v2)这样的Tuple2类型的元素</div><div class="line">			// tuple2就是scala类型，包含了两个值</div><div class="line">		// mapToPair这个算子，要求的是与PairFunction配合使用，</div><div class="line">			//第一个泛型参数, 代表了输入类型 </div><div class="line">			//第二个泛型参数, 代表的输出的Tuple2的第一个值的类型</div><div class="line">			//第三个泛型参数，代表的输出的Tuple2的第二个值的类型</div><div class="line">		// JavaPairRDD的两个泛型参数，分别代表了tuple元素的第一个值和第二个值的类型</div><div class="line">		JavaPairRDD&lt;String, Integer&gt; pairs = words.mapToPair(</div><div class="line">				new PairFunction&lt;String, String, Integer&gt;() &#123;</div><div class="line">					private static final long serialVersionUID = 1L;</div><div class="line">					@Override</div><div class="line">					public Tuple2&lt;String, Integer&gt; call(String word) throws Exception &#123;</div><div class="line">						return new Tuple2&lt;String, Integer&gt;(word, 1);</div><div class="line">					&#125;</div><div class="line">				&#125;);</div><div class="line">		</div><div class="line">		// 第六步：以单词作为key，统计每个单词出现的次数</div><div class="line">		// 使用reduceByKey这个算子，对每个key对应的value，都进行reduce操作</div><div class="line">		// 比如JavaPairRDD中有几个元素，分别为(hello, 1) (hello, 1) (hello, 1) (world, 1)</div><div class="line">		// reduce操作，相当于是把第一个值和第二个值进行计算，然后再将结果与第三个值进行计算</div><div class="line">		// 比如这里的hello，那么就相当于是，首先是1 + 1 = 2，然后再将2 + 1 = 3</div><div class="line">		// 最后返回的JavaPairRDD中的元素，也是tuple，但是第一个值就是每个key，第二个值就是key的value</div><div class="line">		// reduce之后的结果，相当于就是每个单词出现的次数</div><div class="line">		JavaPairRDD&lt;String, Integer&gt; wordCounts = pairs.reduceByKey(</div><div class="line">				new Function2&lt;Integer, Integer, Integer&gt;() &#123;</div><div class="line">					private static final long serialVersionUID = 1L;</div><div class="line">					@Override</div><div class="line">					public Integer call(Integer v1, Integer v2) throws Exception &#123;</div><div class="line">						return v1 + v2;</div><div class="line">					&#125;</div><div class="line">				&#125;);</div><div class="line">		</div><div class="line"></div><div class="line">		// 第六步：虽然通过几个Spark算子操作，已经统计出了单词的次数</div><div class="line">		// 但是，之前使用的flatMap、mapToPair、reduceByKey这种操作，都叫做transformation操作</div><div class="line">		// 一个Spark应用中，光有transformation操作，是不会执行的，还要有一种操作叫做action</div><div class="line">		// 最后，使用一种叫做action操作的，比如说，foreach，来触发程序的执行</div><div class="line">		wordCounts.foreach(new VoidFunction&lt;Tuple2&lt;String,Integer&gt;&gt;() &#123;</div><div class="line">			private static final long serialVersionUID = 1L;</div><div class="line">			@Override</div><div class="line">			public void call(Tuple2&lt;String, Integer&gt; wordCount) throws Exception &#123;</div><div class="line">				System.out.println(wordCount._1 + &quot; appeared &quot; + wordCount._2 + &quot; times.&quot;);    </div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">		sc.close();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h3><p><img src="/2017/11/13/spark/2.png" alt=""></p>
 
       
     </div>
@@ -449,7 +438,7 @@
           
             <a href="/tags/大数据/" rel="tag"># 大数据</a>
           
-            <a href="/tags/spark/" rel="tag"># spark</a>
+            <a href="/tags/Spark/" rel="tag"># Spark</a>
           
         </div>
       
@@ -472,8 +461,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/11/13/spark-WordCount-scala/" rel="prev" title="scala实现的WordCount">
-                scala实现的WordCount <i class="fa fa-chevron-right"></i>
+              <a href="/2017/11/13/Spark实例——WordCount/" rel="prev" title="Spark实例——WordCount">
+                Spark实例——WordCount <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -556,7 +545,7 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -642,7 +631,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是Spark"><span class="nav-text">什么是Spark</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark的架构"><span class="nav-text">Spark的架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-SQL"><span class="nav-text">Spark SQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-Streaming"><span class="nav-text">Spark Streaming</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GraphX"><span class="nav-text">GraphX</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MLlib"><span class="nav-text">MLlib</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-Core"><span class="nav-text">Spark Core</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SparkContext"><span class="nav-text">SparkContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存储体系"><span class="nav-text">存储体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算引擎"><span class="nav-text">计算引擎</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署模式"><span class="nav-text">部署模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark的优点"><span class="nav-text">Spark的优点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#速度快"><span class="nav-text">速度快</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#易上手"><span class="nav-text">易上手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通用性强"><span class="nav-text">通用性强</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集成Hadoop"><span class="nav-text">集成Hadoop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#活跃度很高"><span class="nav-text">活跃度很高</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark与其他主流大数据处理工具的对比"><span class="nav-text">Spark与其他主流大数据处理工具的对比</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-VS-MapReduce"><span class="nav-text">Spark VS MapReduce</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-SQL-VS-Hive"><span class="nav-text">Spark SQL VS  Hive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-Streaming-VS-Storm-topology"><span class="nav-text">Spark Streaming VS Storm topology</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第一个Spark程序——WordCount"><span class="nav-text">第一个Spark程序——WordCount</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#java开发的本地测试的WordCount"><span class="nav-text">java开发的本地测试的WordCount</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#需要的环境"><span class="nav-text">需要的环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤"><span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序"><span class="nav-text">程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行结果"><span class="nav-text">运行结果</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是Spark"><span class="nav-text">什么是Spark</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark的架构"><span class="nav-text">Spark的架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-SQL"><span class="nav-text">Spark SQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-Streaming"><span class="nav-text">Spark Streaming</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GraphX"><span class="nav-text">GraphX</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MLlib"><span class="nav-text">MLlib</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-Core"><span class="nav-text">Spark Core</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SparkContext"><span class="nav-text">SparkContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存储体系"><span class="nav-text">存储体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算引擎"><span class="nav-text">计算引擎</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署模式"><span class="nav-text">部署模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark的优点"><span class="nav-text">Spark的优点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#速度快"><span class="nav-text">速度快</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#易上手"><span class="nav-text">易上手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通用性强"><span class="nav-text">通用性强</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集成Hadoop"><span class="nav-text">集成Hadoop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#活跃度很高"><span class="nav-text">活跃度很高</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spark与其他主流大数据处理工具的对比"><span class="nav-text">Spark与其他主流大数据处理工具的对比</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-VS-MapReduce"><span class="nav-text">Spark VS MapReduce</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-SQL-VS-Hive"><span class="nav-text">Spark SQL VS  Hive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark-Streaming-VS-Storm-topology"><span class="nav-text">Spark Streaming VS Storm topology</span></a></li></ol></li></ol></div>
             
 
           </div>
