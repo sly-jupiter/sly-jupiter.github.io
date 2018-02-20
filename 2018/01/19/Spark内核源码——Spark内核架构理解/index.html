@@ -69,18 +69,22 @@
 
 
 
-<meta name="description" content="the time you enjoy wasting, is not wasted">
+<meta name="description" content="通过画图的方式来理解Spark的内核架构以及各自的运行原理等">
 <meta name="keywords" content="大数据,Spark">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark内核架构理解">
 <meta property="og:url" content="http://yoursite.com/2018/01/19/Spark内核源码——Spark内核架构理解/index.html">
 <meta property="og:site_name" content="Sly_Jupiter">
-<meta property="og:description" content="the time you enjoy wasting, is not wasted">
+<meta property="og:description" content="通过画图的方式来理解Spark的内核架构以及各自的运行原理等">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-25T07:40:02.943Z">
+<meta property="og:image" content="http://yoursite.com/2018/01/19/Spark内核源码——Spark内核架构理解/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/19/Spark内核源码——Spark内核架构理解/2.png">
+<meta property="og:image" content="http://yoursite.com/2018/01/19/Spark内核源码——Spark内核架构理解/3.png">
+<meta property="og:updated_time" content="2018-01-31T08:16:21.053Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark内核架构理解">
-<meta name="twitter:description" content="the time you enjoy wasting, is not wasted">
+<meta name="twitter:description" content="通过画图的方式来理解Spark的内核架构以及各自的运行原理等">
+<meta name="twitter:image" content="http://yoursite.com/2018/01/19/Spark内核源码——Spark内核架构理解/1.png">
 
 
 
@@ -373,7 +377,19 @@
       
 
       
-        
+        <p>通过画图的方式来理解Spark的内核架构以及各自的运行原理等</p>
+<a id="more"></a>
+<h2 id="Spark内核组件"><a href="#Spark内核组件" class="headerlink" title="Spark内核组件"></a>Spark内核组件</h2><p><img src="/2018/01/19/Spark内核源码——Spark内核架构理解/1.png" alt=""></p>
+<h2 id="Spark程序运行时的流程"><a href="#Spark程序运行时的流程" class="headerlink" title="Spark程序运行时的流程"></a>Spark程序运行时的流程</h2><p><img src="/2018/01/19/Spark内核源码——Spark内核架构理解/2.png" alt=""><br>Spark任务详解：<br>1)、将我们编写的程序打成jar包<br>2)、调用spark-submit脚本提交任务到集群上运行<br>3)、运行sparkSubmit的main方法，在这个方法中通过反射的方式创建我们编写的主类的实例对象，然后调用main方法，开始执行我们的代码(注意，我们的spark程序中的driver就运行在sparkSubmit进程中)<br>4)、当代码运行到创建SparkContext对象时，那就开始初始化SparkContext对象了<br>5)、在初始化SparkContext对象的时候，会创建两个特别重要的对象，分别是：DAGScheduler<br>和TaskScheduler<br>【DAGScheduler的作用】将RDD的依赖切分成一个一个的stage，然后将stage作为taskSet提交给DriverActor<br>6)、在构建taskScheduler的同时，会创建两个非常重要的对象，分别是DriverActor和ClientActor<br>【clientActor的作用】向master注册用户提交的任务<br>【DriverActor的作用】接受executor的反向注册，将任务提交给executor<br>7)、当clientActor启动后，会将用户提交的任务和相关的参数封装到ApplicationDescription对象中，然后提交给master进行任务的注册<br>8)、当master接受到clientActor提交的任务请求时，会将请求参数进行解析，并封装成Application，然后将其持久化，然后将其加入到任务队列waitingApps中<br>9)、当轮到我们提交的任务运行时，就开始调用schedule()，进行任务资源的调度<br>10)、master将调度好的资源封装到launchExecutor中发送给指定的worker<br>11)、worker接受到Maseter发送来的launchExecutor时，会将其解压并封装到ExecutorRunner中，然后调用这个对象的start(), 启动Executor<br>12)、Executor启动后会向DriverActor进行反向注册<br>13)、driverActor会发送注册成功的消息给Executor<br>14)、Executor接受到DriverActor注册成功的消息后会创建一个线程池，用于执行DriverActor发送过来的task任务<br>15)、当属于这个任务的所有的Executor启动并反向注册成功后，就意味着运行这个任务的环境已经准备好了，driver会结束SparkContext对象的初始化，也就意味着new SparkContext这句代码运行完成<br>16)、当初始化sc成功后，driver端就会继续运行我们编写的代码，然后开始创建初始的RDD，然后进行一系列转换操作，当遇到一个action算子时，也就意味着触发了一个job<br>17)、driver会将这个job提交给DAGScheduler<br>18)、DAGScheduler将接受到的job，从最后一个算子向前推导，将DAG依据宽依赖划分成一个一个的stage，然后将stage封装成taskSet，并将taskSet中的task提交给DriverActor<br>19)、DriverActor接受到DAGScheduler发送过来的task，会拿到一个序列化器，对task进行序列化，然后将序列化好的task封装到launchTask中，然后将launchTask发送给指定的Executor<br>20)、Executor接受到了DriverActor发送过来的launchTask时，会拿到一个反序列化器，对launchTask进行反序列化，封装到TaskRunner中，然后从Executor这个线程池中获取一个线程，将反序列化好的任务中的算子作用在RDD对应的分区上</p>
+<h2 id="宽依赖与窄依赖"><a href="#宽依赖与窄依赖" class="headerlink" title="宽依赖与窄依赖"></a>宽依赖与窄依赖</h2><p><img src="/2018/01/19/Spark内核源码——Spark内核架构理解/3.png" alt=""></p>
+<ol>
+<li><p>宽依赖<br>宽依赖是指父RDD的每个分区都可能被多个子RDD分区所使用，子RDD分区通常对应所有的父RDD分区(O(n)，与数据规模有关)<br>宽依赖的函数有：groupByKey, join(父RDD不是hash-partitioned ), partitionBy</p>
+</li>
+<li><p>窄依赖<br>窄依赖是指父RDD的每个分区只被子RDD的一个分区所使用，子RDD分区通常对应常数个父RDD分区(O(1)，与数据规模无关)</p>
+</li>
+</ol>
+<p>窄依赖的函数有：map, filter, union, join(父RDD是hash-partitioned ), mapPartitions, mapValues </p>
+
       
     </div>
     
@@ -471,8 +487,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           
             <img class="site-author-image" itemprop="image"
@@ -566,6 +591,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark内核组件"><span class="nav-text">Spark内核组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spark程序运行时的流程"><span class="nav-text">Spark程序运行时的流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#宽依赖与窄依赖"><span class="nav-text">宽依赖与窄依赖</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
